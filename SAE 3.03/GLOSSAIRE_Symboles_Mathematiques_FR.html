@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Glossaire des symboles mathématiques (FR)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+  @page { size: A4; margin: 20mm 18mm; }
+  html, body {
+    font-family: "Georgia", "Times New Roman", serif;
+    color: #1a1a1a;
+    line-height: 1.5;
+    font-size: 11.5pt;
+  }
+  body { max-width: 780px; margin: 0 auto; }
+  h3 { font-size: 1.5em; border-bottom: 2px solid #333; padding-bottom: 6px; margin-top: 0; }
+  h4 { font-size: 1.25em; margin-top: 2em; color: #16324f; border-left: 4px solid #16324f; padding-left: 10px; }
+  h5 { font-size: 1.05em; margin-top: 1.4em; color: #444; font-style: italic; }
+  p { margin: 0.6em 0; }
+  ul, ol { margin: 0.4em 0 0.8em 0; padding-left: 1.4em; }
+  li { margin: 0.25em 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.92em; }
+  th, td { border: 1px solid #999; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef2f6; }
+  tr:nth-child(even) td { background: #fafafa; }
+  strong { color: #16324f; }
+  .katex-display { margin: 0.6em 0; }
+</style>
+</head>
+<body>
+<h1>Glossaire des symboles mathématiques — comment les lire en français</h1>
+<p><em>Document de référence pour lire à voix haute et comprendre les notations utilisées dans la SAÉ 3.03 (séries chronologiques). Pensé pour quelqu'un qui maîtrise les maths mais pas le vocabulaire français associé. Toutes les lectures proposées sont celles qu'un enseignant ou un étudiant français dirait à l'oral.</em></p>
+<hr />
+<h2>1. Notation générale (indices, exposants, accents)</h2>
+<table>
+<thead>
+<tr>
+<th>Symbole</th>
+<th>Comment le lire à voix haute</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$X_t$</td>
+<td>"X indice t"</td>
+<td>La valeur de la variable $X$ à l'instant $t$. Le petit caractère en bas s'appelle un <strong>indice</strong> (subscript).</td>
+</tr>
+<tr>
+<td>$X_{t+h}$</td>
+<td>"X indice t plus h"</td>
+<td>Valeur de $X$, $h$ pas de temps après $t$.</td>
+</tr>
+<tr>
+<td>$X_{t-k}$</td>
+<td>"X indice t moins k"</td>
+<td>Valeur de $X$, $k$ pas de temps avant $t$.</td>
+</tr>
+<tr>
+<td>$x^2$</td>
+<td>"x au carré"</td>
+<td>Exposant 2 (puissance).</td>
+</tr>
+<tr>
+<td>$x^n$</td>
+<td>"x puissance n"</td>
+<td>Exposant général.</td>
+</tr>
+<tr>
+<td>$\hat{m}_t$</td>
+<td>"m chapeau, indice t"</td>
+<td>Le <strong>chapeau</strong> (^) au-dessus d'une lettre signifie "valeur <strong>estimée</strong>" (par opposition à la vraie valeur théorique).</td>
+</tr>
+<tr>
+<td>$\bar{y}$</td>
+<td>"y barre"</td>
+<td>La <strong>barre</strong> au-dessus d'une lettre signifie "<strong>moyenne</strong> de y".</td>
+</tr>
+<tr>
+<td>$\bar{t}$</td>
+<td>"t barre"</td>
+<td>Moyenne des valeurs de $t$.</td>
+</tr>
+<tr>
+<td>$s_j^*$</td>
+<td>"s indice j, étoile"</td>
+<td>L'<strong>étoile</strong> (<em>) signifie ici "coefficient </em><em>normalisé</em>*" — une convention propre à ce cours, pas une règle universelle.</td>
+</tr>
+<tr>
+<td>$X_t^*$</td>
+<td>"X indice t, étoile"</td>
+<td>Série corrigée / ajustée (ici : série corrigée des variations saisonnières, CVS).</td>
+</tr>
+<tr>
+<td>$\tilde{x}$</td>
+<td>"x tilde"</td>
+<td>Le <strong>tilde</strong> (~) indique souvent une autre transformation (médiane, valeur modifiée) — variante moins utilisée dans ce cours.</td>
+</tr>
+<tr>
+<td>$x'$</td>
+<td>"x prime"</td>
+<td>Une variante de $x$, souvent une dérivée ou une deuxième version.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Règle générale de lecture</strong> : on lit toujours de gauche à droite, en disant "indice" pour ce qui descend et "puissance" ou "exposant" pour ce qui monte. Le chapeau se lit toujours en dernier après la lettre : "m chapeau" et pas "chapeau m".</p>
+<hr />
+<h2>2. Opérations et relations</h2>
+<table>
+<thead>
+<tr>
+<th>Symbole</th>
+<th>Comment le lire</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$+$</td>
+<td>"plus"</td>
+<td>Addition.</td>
+</tr>
+<tr>
+<td>$-$</td>
+<td>"moins"</td>
+<td>Soustraction.</td>
+</tr>
+<tr>
+<td>$\times$</td>
+<td>"fois" ou "multiplié par"</td>
+<td>Multiplication.</td>
+</tr>
+<tr>
+<td>$\frac{a}{b}$</td>
+<td>"a sur b"</td>
+<td>Fraction : $a$ divisé par $b$.</td>
+</tr>
+<tr>
+<td>$\sum$</td>
+<td>"somme"</td>
+<td>Symbole sigma majuscule : signifie "somme de".</td>
+</tr>
+<tr>
+<td>$\sum_{i=-k}^{k}$</td>
+<td>"somme, pour i allant de moins k à k"</td>
+<td>On additionne un terme pour chaque valeur de $i$, de $-k$ jusqu'à $k$.</td>
+</tr>
+<tr>
+<td>$\sum_{i=1}^{N}$</td>
+<td>"somme, pour i allant de 1 à N"</td>
+<td>Idem, de $1$ à $N$.</td>
+</tr>
+<tr>
+<td>$=$</td>
+<td>"égal"</td>
+<td>Égalité.</td>
+</tr>
+<tr>
+<td>$\approx$</td>
+<td>"environ égal à" ou "à peu près égal à"</td>
+<td>Égalité approximative.</td>
+</tr>
+<tr>
+<td>$\neq$</td>
+<td>"différent de"</td>
+<td>Non-égalité.</td>
+</tr>
+<tr>
+<td>$\leq$</td>
+<td>"inférieur ou égal à"</td>
+<td>Plus petit ou égal.</td>
+</tr>
+<tr>
+<td>$\geq$</td>
+<td>"supérieur ou égal à"</td>
+<td>Plus grand ou égal.</td>
+</tr>
+<tr>
+<td>$<$</td>
+<td>"strictement inférieur à"</td>
+<td>Plus petit (strict).</td>
+</tr>
+<tr>
+<td>$>$</td>
+<td>"strictement supérieur à"</td>
+<td>Plus grand (strict).</td>
+</tr>
+<tr>
+<td>$\lvert x \rvert$</td>
+<td>"valeur absolue de x"</td>
+<td>Distance de $x$ à zéro, toujours positive.</td>
+</tr>
+<tr>
+<td>$\left( \dots \right)$</td>
+<td>"parenthèse... fin de parenthèse" (souvent non dit à l'oral, juste une pause)</td>
+<td>Regroupe des termes.</td>
+</tr>
+<tr>
+<td>$\dots$</td>
+<td>"points de suspension" ou "et ainsi de suite"</td>
+<td>Continuation d'une liste ou d'une somme.</td>
+</tr>
+<tr>
+<td>$\cdot$</td>
+<td>"fois" (multiplication discrète)</td>
+<td>Utilisé parfois à la place de $\times$ dans les notations condensées.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. Lettres grecques utilisées dans ce cours</h2>
+<p>Les lettres grecques servent à nommer des <strong>paramètres</strong> ou des <strong>coefficients</strong>, jamais des données brutes. En français, on prononce le nom de la lettre, pas le son de la lettre latine la plus proche.</p>
+<table>
+<thead>
+<tr>
+<th>Symbole</th>
+<th>Nom en français</th>
+<th>Prononciation</th>
+<th>Rôle dans le cours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\alpha$</td>
+<td>alpha</td>
+<td>"al-fa"</td>
+<td>Paramètre de lissage (niveau) dans Holt/Holt-Winters.</td>
+</tr>
+<tr>
+<td>$\beta$</td>
+<td>bêta</td>
+<td>"bé-ta"</td>
+<td>Coefficient de la droite de tendance ($\beta_1$, $\beta_0$), ou constante de lissage selon le contexte.</td>
+</tr>
+<tr>
+<td>$\gamma$</td>
+<td>gamma</td>
+<td>"ga-ma"</td>
+<td>Autocovariance $\gamma(k)$, ou paramètre de lissage saisonnier dans Holt-Winters.</td>
+</tr>
+<tr>
+<td>$\mu$</td>
+<td>mu</td>
+<td>"mu" (comme "mur" sans le r)</td>
+<td>Moyenne théorique (espérance) d'une série.</td>
+</tr>
+<tr>
+<td>$\rho$</td>
+<td>rhô</td>
+<td>"ro"</td>
+<td>Autocorrélation $\rho(k)$.</td>
+</tr>
+<tr>
+<td>$\sigma$</td>
+<td>sigma</td>
+<td>"sig-ma"</td>
+<td>Écart-type (parfois $\sigma^2$ pour la variance).</td>
+</tr>
+<tr>
+<td>$\tau$</td>
+<td>tau</td>
+<td>"to"</td>
+<td>Statistique du test de Mann-Kendall (tau de Kendall).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Astuce</strong> : à l'oral, un professeur français dira "alpha", "bêta", "gamma"... jamais "a", "b", "c". Si vous entendez "bêta un" ou "bêta zéro", cela correspond à $\beta_1$ et $\beta_0$.</p>
+<hr />
+<h2>4. Symboles statistiques (espérance, variance, covariance)</h2>
+<table>
+<thead>
+<tr>
+<th>Symbole</th>
+<th>Comment le lire</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathbb{E}[X]$</td>
+<td>"espérance de X"</td>
+<td>Moyenne théorique attendue de la variable $X$.</td>
+</tr>
+<tr>
+<td>$\text{var}(X)$</td>
+<td>"variance de X"</td>
+<td>Mesure de dispersion autour de la moyenne.</td>
+</tr>
+<tr>
+<td>$\text{cov}(X, Y)$</td>
+<td>"covariance de X et Y"</td>
+<td>Mesure de la variation commune entre deux variables.</td>
+</tr>
+<tr>
+<td>$\gamma(k)$</td>
+<td>"gamma de k"</td>
+<td>Autocovariance au retard (décalage) $k$.</td>
+</tr>
+<tr>
+<td>$\rho(k)$</td>
+<td>"rhô de k"</td>
+<td>Autocorrélation au retard $k$ — c'est $\gamma(k)$ normalisée.</td>
+</tr>
+<tr>
+<td>$\hat{\gamma}(k)$</td>
+<td>"gamma chapeau de k"</td>
+<td>Estimateur (calculé sur les données) de l'autocovariance.</td>
+</tr>
+<tr>
+<td>$\hat{\rho}(k)$</td>
+<td>"rhô chapeau de k"</td>
+<td>Estimateur de l'autocorrélation.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. Symboles spécifiques aux séries temporelles (ce cours)</h2>
+<table>
+<thead>
+<tr>
+<th>Symbole</th>
+<th>Comment le lire</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$X_t$</td>
+<td>"X indice t"</td>
+<td>Valeur observée de la série au temps $t$.</td>
+</tr>
+<tr>
+<td>$m_t$</td>
+<td>"m indice t"</td>
+<td>Composante de <strong>tendance</strong> au temps $t$ ("m" pour <em>moyenne mobile</em> ou <em>modèle</em>).</td>
+</tr>
+<tr>
+<td>$s_t$</td>
+<td>"s indice t"</td>
+<td>Composante <strong>saisonnière</strong> au temps $t$ ("s" pour <em>saisonnier</em>).</td>
+</tr>
+<tr>
+<td>$e_t$</td>
+<td>"e indice t"</td>
+<td><strong>Résidu</strong> (bruit, erreur) au temps $t$.</td>
+</tr>
+<tr>
+<td>$\hat{m}_t$</td>
+<td>"m chapeau, indice t"</td>
+<td>Tendance <strong>estimée</strong>.</td>
+</tr>
+<tr>
+<td>$\hat{s}_j$</td>
+<td>"s chapeau, indice j"</td>
+<td>Coefficient saisonnier <strong>brut estimé</strong> pour la période $j$ (ex : le mois $j$).</td>
+</tr>
+<tr>
+<td>$s_j^*$</td>
+<td>"s indice j, étoile"</td>
+<td>Coefficient saisonnier <strong>normalisé</strong>.</td>
+</tr>
+<tr>
+<td>$X_t^*$</td>
+<td>"X indice t, étoile"</td>
+<td>Série <strong>CVS</strong> : "corrigée des variations saisonnières".</td>
+</tr>
+<tr>
+<td>$p$</td>
+<td>"p"</td>
+<td>La <strong>période</strong> de saisonnalité (ex : $p=12$ pour des données mensuelles).</td>
+</tr>
+<tr>
+<td>$N$</td>
+<td>"grand N"</td>
+<td>Le nombre total d'observations dans la série.</td>
+</tr>
+<tr>
+<td>$k$</td>
+<td>"k"</td>
+<td>Généralement la moitié de la période ($p = 2k$ ou $p = 2k+1$), ou un décalage (lag) dans l'ACF.</td>
+</tr>
+<tr>
+<td>$m_{p,t}$</td>
+<td>"m indice p, t"</td>
+<td>Moyenne mobile d'ordre $p$, calculée au temps $t$.</td>
+</tr>
+<tr>
+<td>$\hat{x}_{T+h}$</td>
+<td>"x chapeau, indice T plus h"</td>
+<td><strong>Prévision</strong> de $x$ à l'horizon $h$, à partir du dernier point observé $T$.</td>
+</tr>
+<tr>
+<td>$\hat{x}_T(h)$</td>
+<td>"x chapeau de T, entre parenthèses h"</td>
+<td>Notation alternative : prévision faite à l'instant $T$, pour $h$ pas dans le futur.</td>
+</tr>
+<tr>
+<td>$H_0$</td>
+<td>"H indice zéro"</td>
+<td><strong>Hypothèse nulle</strong> d'un test statistique.</td>
+</tr>
+<tr>
+<td>$H_1$</td>
+<td>"H indice un"</td>
+<td><strong>Hypothèse alternative</strong>.</td>
+</tr>
+<tr>
+<td>$p\text{-value}$</td>
+<td>"p-valeur" (ou "petit p")</td>
+<td>Probabilité utilisée pour accepter/rejeter $H_0$ (seuil habituel : 0,05).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. Lire une formule complète à voix haute — exemples du cours</h2>
+<h3>Moyenne mobile centrée (période impaire)</h3>
+<p>$$m_{p,t} = \frac{1}{p} \sum_{i=-k}^{k} X_{t+i}$$</p>
+<p><strong>Lecture</strong> : <em>"m indice p, t, est égal à un sur p, fois la somme, pour i allant de moins k à k, de X indice t plus i."</em></p>
+<h3>Droite de tendance</h3>
+<p>$$\beta_1 = \frac{\text{cov}(m_{p,t}, t)}{\text{var}(t)}$$</p>
+<p><strong>Lecture</strong> : <em>"bêta un est égal à la covariance de m indice p t et t, sur la variance de t."</em></p>
+<h3>Coefficient saisonnier normalisé (modèle additif)</h3>
+<p>$$s_j^* = \hat{s}_j - \bar{s}$$</p>
+<p><strong>Lecture</strong> : <em>"s indice j étoile est égal à s chapeau indice j, moins s barre."</em></p>
+<h3>Série corrigée des variations saisonnières (modèle multiplicatif)</h3>
+<p>$$X_t^* = \frac{X_t}{s_t^*}$$</p>
+<p><strong>Lecture</strong> : <em>"X indice t étoile est égal à X indice t, sur s indice t étoile."</em></p>
+<h3>Autocorrélation</h3>
+<p>$$\rho(k) = \frac{\gamma(k)}{\gamma(0)}$$</p>
+<p><strong>Lecture</strong> : <em>"rhô de k est égal à gamma de k, sur gamma de zéro."</em></p>
+<h3>Prévision paramétrique multiplicative</h3>
+<p>$$\hat{x}_{T+h} = \hat{m}_{T+h} \times \hat{s}_{T+h}$$</p>
+<p><strong>Lecture</strong> : <em>"x chapeau, indice T plus h, est égal à m chapeau, indice T plus h, fois s chapeau, indice T plus h."</em></p>
+<hr />
+<h2>7. Vocabulaire français utile (au-delà des symboles)</h2>
+<table>
+<thead>
+<tr>
+<th>Terme français</th>
+<th>Signification / équivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Série chronologique</strong> / <strong>série temporelle</strong></td>
+<td><em>Time series</em></td>
+</tr>
+<tr>
+<td><strong>Tendance</strong></td>
+<td><em>Trend</em></td>
+</tr>
+<tr>
+<td><strong>Saisonnalité</strong></td>
+<td><em>Seasonality</em></td>
+</tr>
+<tr>
+<td><strong>Résidu</strong> / <strong>aléa</strong></td>
+<td><em>Residual</em> / <em>noise</em></td>
+</tr>
+<tr>
+<td><strong>Moyenne mobile</strong></td>
+<td><em>Moving average</em></td>
+</tr>
+<tr>
+<td><strong>Moyenne mobile centrée</strong></td>
+<td><em>Centered moving average</em></td>
+</tr>
+<tr>
+<td><strong>Droite de tendance</strong></td>
+<td><em>Trend line</em> (régression linéaire de la tendance)</td>
+</tr>
+<tr>
+<td><strong>Coefficient saisonnier</strong></td>
+<td><em>Seasonal coefficient/factor</em></td>
+</tr>
+<tr>
+<td><strong>CVS</strong> (série corrigée des variations saisonnières)</td>
+<td><em>Seasonally adjusted series</em></td>
+</tr>
+<tr>
+<td><strong>Stationnarité</strong></td>
+<td><em>Stationarity</em></td>
+</tr>
+<tr>
+<td><strong>Rupture</strong></td>
+<td><em>Change point / break</em></td>
+</tr>
+<tr>
+<td><strong>Lissage exponentiel</strong></td>
+<td><em>Exponential smoothing</em></td>
+</tr>
+<tr>
+<td><strong>Prévision</strong></td>
+<td><em>Forecast</em></td>
+</tr>
+<tr>
+<td><strong>Horizon (de prévision)</strong></td>
+<td><em>Forecast horizon</em></td>
+</tr>
+<tr>
+<td><strong>Écart-type</strong></td>
+<td><em>Standard deviation</em></td>
+</tr>
+<tr>
+<td><strong>Retard</strong> / <strong>décalage</strong> (en ACF)</td>
+<td><em>Lag</em></td>
+</tr>
+<tr>
+<td><strong>Bruit blanc</strong></td>
+<td><em>White noise</em></td>
+</tr>
+<tr>
+<td><strong>Test de stationnarité</strong></td>
+<td><em>Stationarity test</em></td>
+</tr>
+<tr>
+<td><strong>Seuil</strong> (de décision, souvent 5 %)</td>
+<td><em>Threshold</em></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Notes</h2>
+<ul>
+<li>Ce glossaire couvre les symboles présents dans <code>SAÉ 3-03 Time Series Forecasting Cheat Sheet - v3.md</code>. S'il apparaît un symbole non listé ici (ex. dans un TD ou un exercice), il suffit de repérer sa famille (indice, exposant, lettre grecque, opérateur) pour appliquer les mêmes règles de lecture.</li>
+<li>Les conventions de notation ($*$ pour "normalisé", chapeau pour "estimé") sont propres à ce cours — un autre enseignant ou un autre manuel pourrait utiliser des symboles différents pour les mêmes idées.</li>
+</ul>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "$", right: "$", display: false}
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+</body>
+</html>
