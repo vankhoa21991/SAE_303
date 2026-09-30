@@ -103,21 +103,6 @@
 
 ---
 
-## Option G — Une série au choix parmi 366 (Tourism Forecasting)
-
-**Dataset** : Tourism Forecasting Part Two (compétition Kaggle) · Mensuel, 366 séries indépendantes · [kaggle.com/competitions/tourism2](https://www.kaggle.com/competitions/tourism2/data?select=tourism2_revision2.csv)
-
-**Pourquoi la choisir** : si vous voulez que **chaque binôme de la classe travaille sur une série différente** (pas de risque de copier le voisin, correction plus intéressante à lire), c'est l'option la plus pratique — une seule source Kaggle, des centaines de séries indépendantes à distribuer.
-
-**Ce que ça donne à chaque étape** :
-- **Contextualisation (3)** : chaque binôme doit documenter *sa* série spécifique (secteur touristique, origine, durée) — variabilité garantie entre groupes.
-- **Décomposition (6)** : certaines séries ont une saisonnalité nette, d'autres non — bon exercice réel de diagnostic (les binômes ne savent pas à l'avance ce qu'ils vont trouver, contrairement aux options A-C qui sont déjà connues comme saisonnières).
-- **Modèle autorégressif** : certaines séries se prêteront à un ARIMA simple, d'autres à un SARIMA — bonne diversité pour la mise en commun en fin de séance.
-
-**Point de vigilance** : donner une consigne claire sur comment choisir/assigner la série (numéro de série = numéro de groupe, par exemple) pour éviter que tout le monde prenne la même par facilité.
-
----
-
 ## Option H — Ventes retail longue durée (US Census)
 
 **Dataset** : Retail and Retailers Sales Time Series Collection (US Census Bureau) · Mensuel, plusieurs secteurs, plusieurs décennies · [kaggle.com/datasets/census/retail-and-retailers-sales-time-series-collection](https://www.kaggle.com/datasets/census/retail-and-retailers-sales-time-series-collection)
@@ -145,23 +130,6 @@
 - **Modèle autorégressif** : assez de données pour un SARIMA complet avec validation croisée digne de ce nom, et pour comparer sérieusement contre une méthode de machine learning si le binôme choisit l'option "optionnel" de l'énoncé.
 
 **Point de vigilance** : volume très important — à réserver aux binômes solides techniquement, sous peine de passer les 10h uniquement sur le nettoyage/l'agrégation sans arriver à la prédiction.
-
----
-
-## Option J — Demande de vélos en libre-service (Bike Sharing)
-
-**Dataset** : Bike Sharing Demand · Horaire, ~2 ans, météo + calendrier · [kaggle.com/c/bike-sharing-demand](https://www.kaggle.com/c/bike-sharing-demand/data)
-
-**Pourquoi la choisir** : c'est une série très parlante pour les étudiants : on peut relier la demande à l'heure de la journée, au jour travaillé, à la saison, à la météo et aux vacances. Elle est plus intéressante qu'une série univariée pure, car elle montre vite que la décomposition tendance+saison ne suffit pas toujours : température, pluie et calendrier expliquent une partie importante des résidus.
-
-**Ce que ça donne à chaque étape** :
-- **Contextualisation (3)** : service urbain de mobilité partagée ; facile de discuter des usages domicile-travail, week-end, météo et saison.
-- **Exploration (4)** : excellent terrain pour visualiser plusieurs saisonnalités : horaire, hebdomadaire et annuelle. Pour rester dans le cadre du cours, agréger en **journalier** ou **mensuel** avant la décomposition classique.
-- **Tests (5)** : stationnarité et ACF très dépendantes du niveau d'agrégation choisi — bon exercice pour montrer que le prétraitement change l'analyse.
-- **Décomposition (6)** : décomposition mensuelle possible après agrégation ; les résidus restent interprétables via météo/calendrier.
-- **Prédiction (8)** : comparer une méthode classique sur la série agrégée à une approche optionnelle utilisant les variables météo.
-
-**Point de vigilance** : ne pas analyser directement la série horaire complète avec une moyenne mobile de période 12 : il faut d'abord choisir une granularité cohérente. Pour un rapport de 10h, recommander une agrégation **journalière** ou **mensuelle**.
 
 ---
 
@@ -213,23 +181,6 @@
 - **Modèle autorégressif** : ARIMA/SARIMA possible sur les pages régulières, mais pas adapté à toutes les séries — excellent point critique.
 
 **Point de vigilance** : dataset très volumineux. Donner une règle stricte de sélection : une seule page, ou une page assignée par numéro de groupe. Éviter les séries trop courtes ou quasi nulles.
-
----
-
-## Option N — M5 Forecasting : ventes retail hiérarchiques Walmart
-
-**Dataset** : M5 Forecasting - Accuracy · Quotidien, ventes Walmart, hiérarchie magasin/produit + prix + calendrier · [kaggle.com/competitions/m5-forecasting-accuracy](https://www.kaggle.com/competitions/m5-forecasting-accuracy/data)
-
-**Pourquoi la choisir** : probablement l'option la plus professionnelle de la liste : ventes quotidiennes, calendrier, événements, prix, magasins, familles de produits. Elle permet de parler de prévision à grande échelle, de hiérarchie de séries, et de variables explicatives — exactement ce qui dépasse les limites d'une décomposition simple.
-
-**Ce que ça donne à chaque étape** :
-- **Management de projet (1)** : le cadrage est central : choisir un seul magasin, une seule catégorie, voire un seul produit.
-- **Recherche biblio (2)** : compétition très connue ; nombreuses solutions publiques et discussions méthodologiques.
-- **Exploration (4)** : visualiser ventes quotidiennes, jours sans vente, effets calendrier et événements commerciaux.
-- **Décomposition (6)** : agréger en hebdomadaire ou mensuel pour rester compatible avec les méthodes du cours.
-- **Prédiction (8)** : comparer une baseline classique à une approche enrichie par calendrier/prix en option.
-
-**Point de vigilance** : option ambitieuse, à réserver aux groupes techniquement solides. Sans cadrage strict, le groupe risque de passer tout le temps à comprendre les fichiers au lieu d'analyser une série.
 
 ---
 
@@ -301,23 +252,6 @@
 
 ---
 
-## Option S — MeteoNet Nord-Ouest France
-
-**Dataset** : MeteoNet North-West France · Données météo ouvertes Météo-France · [kaggle.com/datasets/katerpillar/meteonet](https://www.kaggle.com/datasets/katerpillar/meteonet)
-
-**Pourquoi la choisir** : option française scientifique, issue d'un contexte Météo-France. Elle permet de prévoir une variable naturelle — température, pluie, vent — et de discuter les saisonnalités physiques plutôt qu'économiques.
-
-**Ce que ça donne à chaque étape** :
-- **Contextualisation (3)** : choisir une station météo ou une zone du Nord-Ouest ; documenter le climat local.
-- **Exploration (4)** : excellent pour visualiser l'effet de la granularité : horaire/journalier/mensuel.
-- **Tests (5)** : tendance et rupture à interpréter prudemment : un changement peut venir d'un épisode météo ou d'un changement de station.
-- **Décomposition (6)** : température moyenne mensuelle = cas simple ; précipitations = série plus intermittente et plus difficile.
-- **Prédiction (8)** : Holt-Winters fonctionne bien comme baseline saisonnière pour température ; moins évident pour pluie.
-
-**Point de vigilance** : dataset potentiellement volumineux et technique. Choisir **une station + une variable** dès le départ.
-
----
-
 ## Option T — Disponibilité des réacteurs nucléaires français
 
 **Dataset** : French nuclear reactors availability (2015–2021) · pas de temps 30 minutes, 58 réacteurs · [kaggle.com/datasets/thrasy/french-nuclear-reactors-availability-20152021](https://www.kaggle.com/datasets/thrasy/french-nuclear-reactors-availability-20152021)
@@ -362,12 +296,11 @@
 | Une fréquence différente (hebdomadaire) | **D** — Avocado Prices |
 | Discuter ce que le modèle ne capture pas (variables externes) | **E** — Walmart Sales |
 | Un projet comparatif entre pays | **F** — Western Europe Power |
-| Que chaque binôme ait une série différente | **G** — Tourism Forecasting (366 séries) |
 | Travailler sur une rupture de tendance plutôt qu'une saisonnalité | **H** — US Census Retail |
-| Le projet le plus ambitieux, proche d'un cas d'entreprise | **I** — Store Sales (Favorita) ou **N** — M5 Forecasting |
-| Un sujet urbain concret avec météo et calendrier | **J** — Bike Sharing Demand ou **Q** — Vélib' Paris |
+| Le projet le plus ambitieux, proche d'un cas d'entreprise | **I** — Store Sales (Favorita) |
+| Un sujet urbain concret avec météo et calendrier | **Q** — Vélib' Paris |
 | Une vraie série métier avec plusieurs saisonnalités | **K** — PJM Hourly Energy Consumption |
-| Un sujet météo/nature facile à contextualiser | **L** — Historical Hourly Weather ou **S** — MeteoNet France |
+| Un sujet météo/nature facile à contextualiser | **L** — Historical Hourly Weather |
 | Des séries irrégulières, bruitées, liées à l'actualité | **M** — Web Traffic Wikipédia |
 | Un sujet français simple et très contextualisable | **O** — Électricité France 2008–2017 |
 | Comparer deux énergies en France | **P** — Gaz et électricité France |
@@ -383,5 +316,6 @@
 - Certaines pages Kaggle exposent peu de métadonnées sans connexion : avant de valider un groupe, télécharger le fichier ou lire l'onglet Data pour confirmer la période exacte, les colonnes, les valeurs manquantes et la licence.
 - Pour les options françaises ajoutées en août 2026, les métadonnées Kaggle consultées indiquaient notamment : `velib_data` CC BY-SA 4.0, `Electricity consumption in France (2008-2017)` CC0, `Public transport traffic data in France` sous licence Open Database, `French nuclear reactors availability` CC BY-SA 4.0, et `France energy weather hourly/daily` CC BY 4.0 ; revérifier avant diffusion officielle.
 - Pour toutes les options, prévoir une étape de téléchargement + import (`read.csv`/`pandas.read_csv`, ou import direct dans Excel) — ce n'est pas fourni ici, c'est au binôme de le faire (cf. script de traitement mentionné "pour plus tard").
-- Rappel : l'énoncé demande de choisir un modèle autorégressif (AR, MA, ARMA, ARIMA, SARIMA) en s'appuyant sur ACF/PACF — toutes les options ci-dessus s'y prêtent, mais certaines (A, G, J, O) sont plus simples pour un premier contact avec SARIMA, tandis que d'autres (D, F, I, K, N, Q, T, U) demandent de réfléchir à l'ordre de différenciation saisonnière et au niveau d'agrégation.
+- Rappel : l'énoncé demande de choisir un modèle autorégressif (AR, MA, ARMA, ARIMA, SARIMA) en s'appuyant sur ACF/PACF — toutes les options ci-dessus s'y prêtent, mais certaines (A, O) sont plus simples pour un premier contact avec SARIMA, tandis que d'autres (D, F, I, K, Q, T, U) demandent de réfléchir à l'ordre de différenciation saisonnière et au niveau d'agrégation.
+- Options retirées de cette liste (septembre 2026, après test réel de téléchargement) : **G** (Tourism Forecasting), **J** (Bike Sharing Demand) et **N** (M5 Forecasting) sont des compétitions Kaggle dont les règles doivent être acceptées manuellement sur le site avant tout téléchargement via l'API — l'accès a échoué en l'état (403 Forbidden) ; **S** (MeteoNet) s'est révélée trop volumineuse pour un téléchargement automatique raisonnable (archive de plusieurs Go). Elles restent utilisables si un binôme accepte de gérer ces contraintes manuellement, mais ne sont plus recommandées par défaut.
 - Si l'option choisie s'avère trop bruitée pour une décomposition propre, c'est en soi une observation pédagogique utile à mentionner dans le rapport à l'étape 7 (Validation du modèle) : un résidu qui reste grand = le modèle trend+saison(+AR) ne suffit pas à tout expliquer.

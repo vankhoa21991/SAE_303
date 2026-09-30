@@ -74,9 +74,9 @@ L'énoncé illustre le type de séries mobilisables (probablement une liste dans
 
 ### 2.2 Présentation personnelle (2-3 min)
 
-> "Je me présente rapidement : je m'appelle XYZ, je suis data scientist en poste, actuellement dans une entreprise d'e-commerce. Avant ça, j'ai travaillé comme data scientist et ingénieur IA dans plusieurs entreprises et sur des domaines assez différents : l'automobile, l'imagerie médicale, et maintenant l'e-commerce. Ce que ces expériences ont en commun, c'est justement ce qu'on va faire ensemble aujourd'hui : prendre des données dans le temps — des ventes, des mesures de capteurs, du trafic — et essayer d'en tirer quelque chose d'utile pour prévoir ce qui vient ensuite.
+> "Je me présente rapidement : je m'appelle XYZ, je suis data scientist en poste, actuellement dans une entreprise d'e-commerce. Avant ça, j'ai travaillé comme data scientist et ingénieur IA dans plusieurs entreprises et sur des domaines assez différents : l'automobile, l'imagerie médicale, et maintenant l'e-commerce. 
 >
-> Je vous le dis directement : c'est ma première fois à encadrer cette SAE, je n'ai pas une grande expérience d'enseignement. Ce que j'apporte en revanche, c'est la pratique du terrain — j'ai vu ce type d'analyse tourner en conditions réelles, avec de vraies données sales, de vrais choix à faire faute de certitude absolue, et de vraies conséquences business si la prévision est mauvaise. Si sur un point de méthode pure je prends un peu plus de temps qu'un enseignant chevronné, je compte sur votre indulgence — et en échange, je peux vous partager comment ces méthodes s'utilisent vraiment une fois sorties du cours.
+> C'est ma première fois à encadrer cette SAE. Si vous avez des questions n'hesite pas de le demander. Et je ne souhaite pas que vous parler quand je parle, apres je vais vous donner le temps pour poser des questions
 >
 > N'hésitez pas à me poser des questions à tout moment, y compris des questions bêtes — sur ce genre de projet, il n'y a jamais de mauvaise question, seulement des hypothèses qu'on n'a pas vérifiées. Et si une question me sort de mon domaine de confort, je vous le dirai aussi honnêtement plutôt que d'inventer une réponse.
 >
