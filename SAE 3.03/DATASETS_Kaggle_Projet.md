@@ -42,22 +42,6 @@
 
 ---
 
-## Option C — Ventes retail avec effet marketing
-
-**Dataset** : Retail Sales Data with Seasonal Trends & Marketing · Quotidien/mensuel selon agrégation, plusieurs années · [kaggle.com/datasets/abdullah0a/retail-sales-data-with-seasonal-trends-and-marketing](https://www.kaggle.com/datasets/abdullah0a/retail-sales-data-with-seasonal-trends-and-marketing)
-
-**Pourquoi la choisir** : construit explicitement pour contenir tendance + saisonnalité + effet promotionnel superposé — pousse le binôme à *nettoyer et agréger* avant de pouvoir décomposer proprement, ce qui donne un vrai contenu à l'étape "Exploration des données" plutôt qu'une formalité.
-
-**Ce que ça donne à chaque étape** :
-- **Exploration (4)** : nécessite de choisir un pas de temps (journalier trop bruité pour la décomposition classique → argument pour agréger en mensuel), bon sujet de discussion sur les descripteurs statistiques.
-- **Tests (5)** : le bruit "marketing" rend le test de stationnarité et l'ACF/PACF moins triviaux à lire — bonne occasion de vraiment interpréter plutôt que de lire un résultat évident.
-- **Décomposition (6)** : le résidu $e_t$ restera plus grand qu'ailleurs (le marketing n'est pas capturé par trend+saison) — excellent point pour la partie "Validation du modèle" (étape 7) : discuter *pourquoi* le résidu ne suffit pas à tout capturer.
-- **Modèle autorégressif** : bon cas pour tester si un ARIMA sur le résidu (après retrait de la saisonnalité) améliore la prévision par rapport à la décomposition seule.
-
-**Point de vigilance** : demander au binôme de choisir *une seule* série (un magasin/produit/région) avant de commencer, sinon le dataset est multivarié et sort du cadre du cours.
-
----
-
 ## Option D — Prix hebdomadaires de l'avocat (US)
 
 **Dataset** : Avocado Prices · Hebdomadaire, ~4 ans, plusieurs régions US · [kaggle.com/datasets/neuromusic/avocado-prices](https://www.kaggle.com/neuromusic/avocado-prices)
@@ -118,21 +102,6 @@
 
 ---
 
-## Option I — Ventes retail multi-magasins (Store Sales, projet ambitieux)
-
-**Dataset** : Store Sales – Time Series Forecasting (compétition Corporación Favorita) · Quotidien, plusieurs années, ~54 magasins × 33 familles de produits · [kaggle.com/competitions/store-sales-time-series-forecasting](https://www.kaggle.com/competitions/store-sales-time-series-forecasting)
-
-**Pourquoi la choisir** : l'option la plus riche et la plus proche d'un cas réel d'entreprise — oblige le binôme à choisir/agréger lui-même une série pertinente (ex : une famille de produits sur tous les magasins, en mensuel) avant même de commencer l'étape 3. Bon choix pour un binôme motivé qui veut un projet qui "ressemble à un vrai cas".
-
-**Ce que ça donne à chaque étape** :
-- **Management de projet (1)** : le cadrage du sujet (quelle série choisir et pourquoi) doit apparaître comme une tâche à part entière dans le Gantt — ne pas le sous-estimer, ça peut prendre facilement une des 5 tranches de 2h.
-- **Contextualisation (3)** : justifier le choix de la série extraite est en soi un exercice de cadrage de problème, proche de ce qu'on attend en entreprise.
-- **Modèle autorégressif** : assez de données pour un SARIMA complet avec validation croisée digne de ce nom, et pour comparer sérieusement contre une méthode de machine learning si le binôme choisit l'option "optionnel" de l'énoncé.
-
-**Point de vigilance** : volume très important — à réserver aux binômes solides techniquement, sous peine de passer les 10h uniquement sur le nettoyage/l'agrégation sans arriver à la prédiction.
-
----
-
 ## Option K — Consommation électrique horaire PJM (US)
 
 **Dataset** : Hourly Energy Consumption · Horaire, plusieurs zones électriques PJM · [kaggle.com/datasets/robikscube/hourly-energy-consumption](https://www.kaggle.com/datasets/robikscube/hourly-energy-consumption)
@@ -181,57 +150,6 @@
 - **Modèle autorégressif** : ARIMA/SARIMA possible sur les pages régulières, mais pas adapté à toutes les séries — excellent point critique.
 
 **Point de vigilance** : dataset très volumineux. Donner une règle stricte de sélection : une seule page, ou une page assignée par numéro de groupe. Éviter les séries trop courtes ou quasi nulles.
-
----
-
-## Option O — Consommation électrique française longue période
-
-**Dataset** : Electricity consumption in France (2008–2017) · France, consommation électrique, période longue · [kaggle.com/datasets/malguibert/electricity-consumption-in-france-2008-2017](https://www.kaggle.com/datasets/malguibert/electricity-consumption-in-france-2008-2017)
-
-**Pourquoi la choisir** : c'est une version plus directement française que les datasets énergie internationaux. Elle permet de travailler sur un sujet très contextualisable : chauffage électrique, saison hiver/été, jours ouvrés, vacances, politiques énergétiques et événements climatiques. La période 2008–2017 donne assez de recul pour observer plusieurs cycles annuels et discuter d'une tendance de fond.
-
-**Ce que ça donne à chaque étape** :
-- **Recherche biblio (2)** : nombreuses sources françaises possibles : RTE, INSEE, Ministère de la Transition écologique, bilans électriques annuels.
-- **Exploration (4)** : bon terrain pour comparer granularité journalière, hebdomadaire ou mensuelle selon les fichiers disponibles.
-- **Tests (5)** : stationnarité en niveau peu probable si la série garde une tendance ou une saisonnalité forte ; test de Pettitt intéressant si un changement de niveau apparaît.
-- **Décomposition (6)** : décomposition mensuelle simple et très lisible, avec saisonnalité hivernale attendue.
-- **Prédiction (8)** : Holt-Winters saisonnier donne une baseline solide ; SARIMA pertinent si l'ACF montre un cycle annuel clair.
-
-**Point de vigilance** : vérifier la granularité exacte après téléchargement. Si la série est trop fine, agréger en mensuel pour rester proche des méthodes vues en cours.
-
----
-
-## Option P — Gaz et électricité en France (2011–2021)
-
-**Dataset** : French gas and electricity consumption (2011–2021) · France, énergie, deux séries possibles · [kaggle.com/datasets/mariofdz/french-gas-and-electricity-consumption-2011-2021](https://www.kaggle.com/datasets/mariofdz/french-gas-and-electricity-consumption-2011-2021)
-
-**Pourquoi la choisir** : très bon dataset pour comparer deux usages énergétiques français : gaz et électricité. La série couvre potentiellement des événements importants, notamment les variations de consommation liées aux hivers, aux politiques énergétiques et à la période COVID.
-
-**Ce que ça donne à chaque étape** :
-- **Contextualisation (3)** : expliquer la différence d'usage entre gaz et électricité en France, et choisir clairement une variable principale.
-- **Exploration (4)** : possibilité de comparer gaz vs électricité en annexe, mais l'analyse SAE doit rester centrée sur une seule série.
-- **Tests (5)** : Pettitt peut être intéressant autour de 2020 ou lors d'un changement structurel de consommation.
-- **Décomposition (6)** : saisonnalité hivernale attendue ; le modèle additif ou multiplicatif dépendra de l'évolution de l'amplitude.
-- **Prédiction (8)** : utile pour comparer prévision classique et commentaire métier : météo, prix, comportements de consommation.
-
-**Point de vigilance** : la licence Kaggle est indiquée comme spécifique/à vérifier. Avant de donner ce dataset à une classe, vérifier explicitement l'onglet licence et la source originale.
-
----
-
-## Option Q — Vélib' Paris : disponibilité de vélos + météo
-
-**Dataset** : velib_data · Paris, disponibilité Vélib' toutes les 5 minutes + météo · [kaggle.com/datasets/adrienmorel97/velib-data](https://www.kaggle.com/datasets/adrienmorel97/velib-data)
-
-**Pourquoi la choisir** : option très concrète et française : mobilité urbaine parisienne, météo, pics domicile-travail, week-ends, vacances, stations plus ou moins fréquentées. C'est probablement l'un des datasets les plus intéressants pour des étudiants, car il relie directement série temporelle et usages quotidiens.
-
-**Ce que ça donne à chaque étape** :
-- **Management de projet (1)** : prévoir du temps pour choisir une station, une zone ou une agrégation globale.
-- **Contextualisation (3)** : expliquer le service Vélib', la géographie parisienne et l'effet météo attendu.
-- **Exploration (4)** : très riche : saisonnalité intra-journalière, hebdomadaire, météo, jours ouvrés.
-- **Décomposition (6)** : agréger en journalier ou mensuel ; la série 5 minutes est trop fine pour une décomposition classique simple.
-- **Prédiction (8)** : comparer une baseline lissage/décomposition à une approche optionnelle utilisant météo ou calendrier.
-
-**Point de vigilance** : dataset volumineux et multivarié. Pour 10h, imposer **une seule station** ou une agrégation simple, sinon le projet devient un projet data engineering.
 
 ---
 
@@ -292,19 +210,14 @@
 |---|---|
 | La série la plus sûre, sans complications de nettoyage | **A** — Champagne Sales |
 | Un thème français, saisonnalité nette (chauffage) | **B** — Énergie France |
-| Un vrai travail de nettoyage avant décomposition | **C** — Retail + Marketing |
 | Une fréquence différente (hebdomadaire) | **D** — Avocado Prices |
 | Discuter ce que le modèle ne capture pas (variables externes) | **E** — Walmart Sales |
 | Un projet comparatif entre pays | **F** — Western Europe Power |
 | Travailler sur une rupture de tendance plutôt qu'une saisonnalité | **H** — US Census Retail |
-| Le projet le plus ambitieux, proche d'un cas d'entreprise | **I** — Store Sales (Favorita) |
-| Un sujet urbain concret avec météo et calendrier | **Q** — Vélib' Paris |
 | Une vraie série métier avec plusieurs saisonnalités | **K** — PJM Hourly Energy Consumption |
 | Un sujet météo/nature facile à contextualiser | **L** — Historical Hourly Weather |
 | Des séries irrégulières, bruitées, liées à l'actualité | **M** — Web Traffic Wikipédia |
-| Un sujet français simple et très contextualisable | **O** — Électricité France 2008–2017 |
-| Comparer deux énergies en France | **P** — Gaz et électricité France |
-| Mobilité et fréquentation en France | **Q** — Vélib' ou **R** — Transports publics France |
+| Mobilité et fréquentation en France | **R** — Transports publics France |
 | Énergie française avancée avec variables explicatives | **U** — France energy + weather |
 | Un sujet français original lié au nucléaire | **T** — Réacteurs nucléaires français |
 
@@ -314,8 +227,14 @@
 
 - Les liens pointent vers des pages Kaggle publiques vérifiées/recherchées entre juillet et août 2026 ; vérifier la disponibilité et la licence exacte au moment du choix, Kaggle modifiant parfois l'URL ou le statut d'un dataset.
 - Certaines pages Kaggle exposent peu de métadonnées sans connexion : avant de valider un groupe, télécharger le fichier ou lire l'onglet Data pour confirmer la période exacte, les colonnes, les valeurs manquantes et la licence.
-- Pour les options françaises ajoutées en août 2026, les métadonnées Kaggle consultées indiquaient notamment : `velib_data` CC BY-SA 4.0, `Electricity consumption in France (2008-2017)` CC0, `Public transport traffic data in France` sous licence Open Database, `French nuclear reactors availability` CC BY-SA 4.0, et `France energy weather hourly/daily` CC BY 4.0 ; revérifier avant diffusion officielle.
+- Pour les options françaises ajoutées en août 2026, les métadonnées Kaggle consultées indiquaient notamment : `Public transport traffic data in France` sous licence Open Database, `French nuclear reactors availability` CC BY-SA 4.0, et `France energy weather hourly/daily` CC BY 4.0 ; revérifier avant diffusion officielle.
 - Pour toutes les options, prévoir une étape de téléchargement + import (`read.csv`/`pandas.read_csv`, ou import direct dans Excel) — ce n'est pas fourni ici, c'est au binôme de le faire (cf. script de traitement mentionné "pour plus tard").
-- Rappel : l'énoncé demande de choisir un modèle autorégressif (AR, MA, ARMA, ARIMA, SARIMA) en s'appuyant sur ACF/PACF — toutes les options ci-dessus s'y prêtent, mais certaines (A, O) sont plus simples pour un premier contact avec SARIMA, tandis que d'autres (D, F, I, K, Q, T, U) demandent de réfléchir à l'ordre de différenciation saisonnière et au niveau d'agrégation.
-- Options retirées de cette liste (septembre 2026, après test réel de téléchargement) : **G** (Tourism Forecasting), **J** (Bike Sharing Demand) et **N** (M5 Forecasting) sont des compétitions Kaggle dont les règles doivent être acceptées manuellement sur le site avant tout téléchargement via l'API — l'accès a échoué en l'état (403 Forbidden) ; **S** (MeteoNet) s'est révélée trop volumineuse pour un téléchargement automatique raisonnable (archive de plusieurs Go). Elles restent utilisables si un binôme accepte de gérer ces contraintes manuellement, mais ne sont plus recommandées par défaut.
+- Rappel : l'énoncé demande de choisir un modèle autorégressif (AR, MA, ARMA, ARIMA, SARIMA) en s'appuyant sur ACF/PACF — toutes les options ci-dessus s'y prêtent, mais certaines (A) sont plus simples pour un premier contact avec SARIMA, tandis que d'autres (D, F, K, T, U) demandent de réfléchir à l'ordre de différenciation saisonnière et au niveau d'agrégation.
+- Options retirées de cette liste (septembre-octobre 2026, après test réel de téléchargement et vérification quantitative tendance/saisonnalité — voir `scripts/check_trend_seasonality.py` et `scripts/plots/_trend_seasonality.md`) :
+  - **G** (Tourism Forecasting), **J** (Bike Sharing Demand) et **N** (M5 Forecasting) sont des compétitions Kaggle dont les règles doivent être acceptées manuellement sur le site avant tout téléchargement via l'API — l'accès a échoué en l'état (403 Forbidden).
+  - **S** (MeteoNet) s'est révélée trop volumineuse pour un téléchargement automatique raisonnable (archive de plusieurs Go).
+  - **C** (Retail + Marketing) et **Q** (Vélib') : le fichier réellement téléchargé ne couvre que quelques semaines (4 mois pour C, 2 semaines pour Q) — bien trop court pour une saisonnalité ou une tendance exploitable, malgré une description Kaggle laissant penser à un historique long.
+  - **O** (Électricité France 2008–2017) et **P** (Gaz et électricité France) : données **annuelles uniquement** (une valeur par an) — aucune saisonnalité infra-annuelle n'est mesurable par construction, quel que soit le nombre d'années couvertes.
+  - **I** (Store Sales/Favorita) : après lecture du fichier réel, seulement quelques mois de données exploitables ont pu être extraits (probablement tronqué par la taille du fichier) — à re-vérifier manuellement si un binôme veut absolument cette option.
+  - Ces options restent utilisables si un binôme accepte de gérer ces contraintes manuellement (règles de compétition, volume, agrégation annuelle→autre source), mais ne sont plus recommandées par défaut.
 - Si l'option choisie s'avère trop bruitée pour une décomposition propre, c'est en soi une observation pédagogique utile à mentionner dans le rapport à l'étape 7 (Validation du modèle) : un résidu qui reste grand = le modèle trend+saison(+AR) ne suffit pas à tout expliquer.
