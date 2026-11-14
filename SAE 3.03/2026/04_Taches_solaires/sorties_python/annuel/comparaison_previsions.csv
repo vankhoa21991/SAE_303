@@ -1,0 +1,5 @@
+,RMSE,MAE,MAPE
+"ARIMA(8, 1, 0)",40.418,31.713,104.386
+Décomposition,48.321,40.518,102.646
+Lissage: Holt amorti,111.873,101.803,375.629
+Naïf (dernière valeur),124.947,115.853,415.592

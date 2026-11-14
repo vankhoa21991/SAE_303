@@ -1,0 +1,5 @@
+,RMSE,MAE,MAPE
+"ARIMA(0, 0, 0)x(0, 1, 1)[12]",48.013,37.43,6.972
+Lissage: HW (sans tendance),48.573,37.917,7.047
+Décomposition,59.431,48.69,10.371
+Naïf saisonnier,64.736,49.042,8.213

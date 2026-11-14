@@ -1,0 +1,77 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : Ventes de champagne | n=105 | fréquence=12 | début=1964/1 | fin=1972.67
+summary : Min. 1413 | 1st Qu. 3113 | Median 4217 | Mean 4761.15 | 3rd Qu. 5221 | Max. 13916 | sd=2553.5 | NA=0
+Descripteurs par cycle :
+ debut moyenne      sd  min   max
+  1964 3478.17 1555.29 2212  7312
+  1965 3864.17 1900.88 1759  8357
+  1966 4337.67 2119.89 1573  9254
+  1967 5016.00 2380.62 1643 10651
+  1968 5370.58 2723.37 1723 11331
+  1969 5713.42 3382.16 1821 13916
+  1970 5006.58 3324.22 1738 13076
+  1971 5640.58 2995.57 1659 12670
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF : stat=-4.887 p=0.0100 -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0100
+Mann-Kendall (moyennes par cycle) : tau=0.714 Z=2.35 p=0.01874 -> tendance croissante
+Pettitt : K=1238 p=0.000765 -> rupture de niveau vers 1966.75
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=0.7257  p=0.0026  (n cycles=8)
+-> modèle retenu : MULTIPLICATIF   (pente significativement > 0 => amplitude proportionnelle au niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (multiplicative, période=12)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:+0.755 2:+0.674 3:+0.808 4:+0.830 5:+0.874 6:+0.866 7:+0.741 8:+0.381 9:+0.927 10:+1.196 11:+1.755 12:+2.194
+Contrôle de normalisation : moyenne = 1
+  MM centrée à la main t=7 : 3478.167 | decompose : 3466.750
+  MM centrée à la main t=8 : 3455.333 | decompose : 3447.125
+  MM centrée à la main t=9 : 3438.917 | decompose : 3450.417
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=0.0001019 sd=0.1375
+Ljung-Box : p=0.4158 -> pas d'autocorrélation (bruit blanc plausible)
+Shapiro-Wilk : p=1.054e-07 -> non normaux
+3 observations les plus mal ajustées (temps, valeur) : (1964.58 ; 2212.00) (1967.00 ; 5375.00) (1970.33 ; 2927.00)
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 84 obs. (jusqu'à 1970.92) | test = 21 obs. (de 1971.00 à 1972.67)
+Lissage exponentiel :
+  ets MNM   AICc=   1490.58  alpha=0.193 beta=- gamma=0
+  ets MAM   AICc=   1489.35  alpha=0.081 beta=0.001 gamma=0
+  -> lissage retenu (AICc minimal) : ETS(M,A,M)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(1,1,1)x(0,12,0)[12] sur log  AIC=-49.6
+                                     RMSE     MAE   MAPE
+Décomposition                     464.760 361.322 11.601
+Lissage: ETS(M,A,M)               465.758 364.407 11.584
+ARIMA(1,1,1)x(0,12,0)[12] sur log 967.408 828.462 18.033
+Naïf saisonnier                   996.529 823.143 18.264
+==> meilleure méthode (RMSE) : Décomposition
+
+======================================================================
+Additif vs multiplicatif — critère chiffré (reconstruction tendance ⊕ saison)
+======================================================================
+  additive        RMSE=758.469  MAPE=12.57%  autocorr(1) des résidus=0.26
+  multiplicative  RMSE=563.699  MAPE=8.94%  autocorr(1) des résidus=0.14
+
+======================================================================
+Holt-Winters multiplicatif brut vs additif sur log(y) (retransformé par exp)
+======================================================================
+  HW multiplicatif (brut)    RMSE=465.758 MAE=364.407 MAPE=11.58%
+  HW additif sur log         RMSE=420.529 MAE=318.122 MAPE=9.98%
+-> La méthode de choix (Buys-Ballot) avait retenu : multiplicative : confirmée ou non par le test ci-dessus ?

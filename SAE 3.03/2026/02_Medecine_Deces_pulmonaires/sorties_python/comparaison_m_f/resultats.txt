@@ -1,0 +1,7 @@
+
+======================================================================
+⭐ EMS-2 : coefficients saisonniers hommes vs femmes
+======================================================================
+corrélation des profils saisonniers : 0.998
+mois de pic : 1 (hommes) 2 (femmes)
+amplitude (max-min) : 1106.4 vs 472.2

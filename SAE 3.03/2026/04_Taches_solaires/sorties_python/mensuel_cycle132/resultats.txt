@@ -1,0 +1,6 @@
+
+======================================================================
+⭐ Quelle est la vraie période ?
+======================================================================
+Pic de l'ACF dans [100,170] : retard 125 mois = 10.4 ans
+Contresens du TP01 (période 12) : amplitude des coef. saisonniers = 3.30 pour une moyenne de 51.3 -> saisonnalité annuelle négligeable

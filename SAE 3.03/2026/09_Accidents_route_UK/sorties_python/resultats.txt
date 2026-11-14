@@ -1,0 +1,84 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : UKDriverDeaths (conducteurs tués/blessés) | n=192 | fréquence=12 | début=(1969, 1) | fin≈1984.92
+min=1057.00 q1=1461.75 médiane=1631.00 moyenne=1670.31 q3=1850.75 max=2654.00 sd=289.61  NA=0
+Descripteurs par cycle :
+         mean     std     min     max
+1969  1662.58  241.90  1385.0  2152.0
+1970  1828.25  284.98  1520.0  2478.0
+1971  1859.08  214.14  1619.0  2233.0
+1972  1961.67  303.15  1569.0  2654.0
+1973  1987.50  137.99  1677.0  2150.0
+1974  1788.33  241.41  1382.0  2092.0
+1975  1601.08  240.00  1356.0  2199.0
+1976  1602.42  281.72  1309.0  2274.0
+1977  1613.58  256.33  1394.0  2215.0
+1978  1703.42  255.32  1446.0  2262.0
+1979  1664.17  247.61  1427.0  2207.0
+1980  1577.67  181.08  1360.0  1941.0
+1981  1595.75  177.92  1385.0  1938.0
+1982  1621.67  233.47  1365.0  2079.0
+1983  1289.33  177.22  1057.0  1513.0
+1984  1368.42  218.05  1110.0  1763.0
+Pics locaux significatifs de l'ACF aux retards : [12]  (la période = premier grand pic récurrent)
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF (constante+tendance) : stat=-2.820  p=0.1896  -> NON stationnaire (H0 racine unitaire conservée)
+ADF sur la série différenciée : p=0.0001
+Mann-Kendall (moyennes par cycle) : tau=-0.517 Z=-2.75 p=0.006026 -> tendance décroissante
+Pettitt : K=5178 p=3.029e-10 -> rupture de niveau vers 1975.00
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=0.0495  p=0.4395  (n cycles=16)
+Coefficient de variation moyen sd/moyenne = 0.139 (sd des CV = 0.025; sd des sd = 43.17)
+-> modèle retenu : ADDITIF   (pente non significative => amplitude indépendante du niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (additive, période=12, complète)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:+19.642 2:-179.861 3:-124.525 4:-236.533 5:-105.164 6:-154.342 7:-72.033 8:-58.431 9:-11.186 10:+130.136 11:+333.897 12:+458.400
+Contrôle de normalisation : somme = 0.0000
+  MM centrée à la main t=7 : 1665.292 | statsmodels : 1665.292
+  MM centrée à la main t=8 : 1678.708 | statsmodels : 1678.708
+  MM centrée à la main t=9 : 1698.167 | statsmodels : 1698.167
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=-0.2833  sd=111.5
+Ljung-Box : p=0.0004481 -> résidus autocorrélés (structure restante)
+Shapiro-Wilk : p=0.399 -> normalité non rejetée
+3 observations les plus mal ajustées : [(1981.92, 1726.0), (1978.0, 1956.0), (1971.67, 1619.0)]
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 168 obs. (jusqu'à 1982.92) | test = 24 obs. (de 1983.00 à 1984.92)
+Lissage exponentiel :
+  HW (sans tendance)     AICc=   1651.70  SSE=2590640.0  alpha=0.325 beta=nan gamma=0.000
+  HW tendance            AICc=   1656.69  SSE=2590643.0  alpha=0.325 beta=0.000 gamma=0.000
+  HW tendance amortie    AICc=   1658.33  SSE=2576705.9  alpha=0.304 beta=0.000 gamma=0.000
+  -> lissage retenu (AICc minimal) : HW (sans tendance)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(2, 1, 1)x(1, 1, 1)[12]  AIC=1983.9
+                                 RMSE      MAE    MAPE
+Décomposition                 246.414  221.439  17.323
+Naïf saisonnier               325.270  295.958  22.972
+ARIMA(2, 1, 1)x(1, 1, 1)[12]  332.621  315.132  24.469
+Lissage: HW (sans tendance)   336.311  319.684  24.802
+==> meilleure méthode (RMSE) : Décomposition
+Date de rupture trouvée par Pettitt : 1975.00 (loi : 31/01/1983)
+
+======================================================================
+⭐ Effet estimé de la loi sur la ceinture = (prévu sans l'événement) − (observé), sur le test
+======================================================================
+  Décomposition                            écart cumulé=   5314.5   soit  14.3% du prévu
+  Lissage: HW (sans tendance)              écart cumulé=   7672.4   soit  19.4% du prévu
+  ARIMA(2, 1, 1)x(1, 1, 1)[12]             écart cumulé=   7563.2   soit  19.2% du prévu
+  Naïf saisonnier                          écart cumulé=   7027.0   soit  18.1% du prévu

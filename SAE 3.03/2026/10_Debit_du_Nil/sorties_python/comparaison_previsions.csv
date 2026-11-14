@@ -1,0 +1,5 @@
+,RMSE,MAE,MAPE
+Lissage: LES,123.033,104.512,11.906
+Naïf (dernière valeur),123.062,101.95,11.963
+"ARIMA(1, 0, 1)",130.4,105.201,12.747
+Décomposition,133.313,108.013,13.156

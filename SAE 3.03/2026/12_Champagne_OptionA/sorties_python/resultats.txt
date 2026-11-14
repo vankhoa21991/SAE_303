@@ -1,0 +1,80 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : Ventes de champagne (bouteilles) | n=105 | fréquence=12 | début=(1964, 1) | fin≈1972.67
+min=1413.00 q1=3113.00 médiane=4217.00 moyenne=4761.15 q3=5221.00 max=13916.00 sd=2553.50  NA=0
+Descripteurs par cycle :
+         mean      std     min      max
+1964  3478.17  1555.29  2212.0   7312.0
+1965  3864.17  1900.88  1759.0   8357.0
+1966  4337.67  2119.89  1573.0   9254.0
+1967  5016.00  2380.62  1643.0  10651.0
+1968  5370.58  2723.37  1723.0  11331.0
+1969  5713.42  3382.16  1821.0  13916.0
+1970  5006.58  3324.22  1738.0  13076.0
+1971  5640.58  2995.57  1659.0  12670.0
+Pics locaux significatifs de l'ACF aux retards : [12]  (la période = premier grand pic récurrent)
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF (constante+tendance) : stat=-1.036  p=0.9391  -> NON stationnaire (H0 racine unitaire conservée)
+ADF sur la série différenciée : p=0.0000
+Mann-Kendall (moyennes par cycle) : tau=0.714 Z=2.35 p=0.01874 -> tendance croissante
+Pettitt : K=1238 p=0.000765 -> rupture de niveau vers 1966.75
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=0.7257  p=0.0026  (n cycles=8)
+Coefficient de variation moyen sd/moyenne = 0.525 (sd des CV = 0.066; sd des sd = 626.99)
+-> modèle retenu : MULTIPLICATIF   (pente significativement > 0 => amplitude proportionnelle au niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (multiplicative, période=12, complète)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:+0.755 2:+0.674 3:+0.808 4:+0.830 5:+0.874 6:+0.866 7:+0.741 8:+0.381 9:+0.927 10:+1.196 11:+1.755 12:+2.194
+Contrôle de normalisation : moyenne = 1.0000
+  MM centrée à la main t=7 : 3466.750 | statsmodels : 3466.750
+  MM centrée à la main t=8 : 3447.125 | statsmodels : 3447.125
+  MM centrée à la main t=9 : 3450.417 | statsmodels : 3450.417
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=0.0001019  sd=0.1375
+Ljung-Box : p=0.4158 -> pas d'autocorrélation (bruit blanc plausible)
+Shapiro-Wilk : p=1.054e-07 -> non normaux
+3 observations les plus mal ajustées : [(1964.58, 2212.0), (1967.0, 5375.0), (1970.33, 2927.0)]
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 84 obs. (jusqu'à 1970.92) | test = 21 obs. (de 1971.00 à 1972.67)
+Lissage exponentiel :
+  HW (sans tendance)     AICc=   1099.34  SSE=26383194.4  alpha=0.453 beta=nan gamma=0.000
+  HW tendance            AICc=   1122.67  SSE=32273199.0  alpha=0.091 beta=0.000 gamma=0.448
+  HW tendance amortie    AICc=   1107.09  SSE=25759909.8  alpha=0.049 beta=0.018 gamma=0.000
+  -> lissage retenu (AICc minimal) : HW (sans tendance)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(0, 1, 1)x(1, 1, 0)[12] sur log  AIC=-48.4
+                                          RMSE      MAE    MAPE
+Lissage: HW (sans tendance)            431.108  358.649   9.987
+Décomposition                          464.760  361.322  11.601
+Naïf saisonnier                        996.529  823.143  18.264
+ARIMA(0, 1, 1)x(1, 1, 0)[12] sur log  1082.138  940.865  19.955
+==> meilleure méthode (RMSE) : Lissage: HW (sans tendance)
+
+======================================================================
+Additif vs multiplicatif — critère chiffré (reconstruction tendance ⊕ saison)
+======================================================================
+  additive        RMSE=758.469  MAPE=12.57%  autocorr(1) des résidus=0.26
+  multiplicative  RMSE=563.699  MAPE=8.94%  autocorr(1) des résidus=0.14
+
+======================================================================
+Holt-Winters multiplicatif brut vs additif sur log(y) (retransformé par exp)
+======================================================================
+  HW multiplicatif (brut)    RMSE=442.920 MAE=364.648 MAPE=9.30%
+  HW additif sur log         RMSE=406.386 MAE=315.910 MAPE=9.36%
+-> La méthode de choix (Buys-Ballot) avait retenu : multiplicative : confirmée ou non par le test ci-dessus ?

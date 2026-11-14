@@ -1,0 +1,5 @@
+,RMSE,MAE,MAPE
+"ARIMA(1, 0, 0)",1.885,1.446,43.028
+Naïf (dernière valeur),2.115,1.715,54.357
+Lissage: Holt,3.407,2.889,91.491
+Décomposition,3.407,2.889,91.491

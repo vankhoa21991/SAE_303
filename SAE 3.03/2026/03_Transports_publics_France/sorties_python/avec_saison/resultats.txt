@@ -1,0 +1,73 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : Retard moyen à l'arrivée (toutes liaisons) (min) | n=66 | fréquence=12 | début=(2015, 1) | fin≈2020.42
+min=1.24 q1=3.96 médiane=5.08 moyenne=5.19 q3=6.38 max=11.09 sd=1.84  NA=0
+Descripteurs par cycle :
+      mean   std   min    max
+2015  4.33  1.26  2.30   6.68
+2016  4.18  1.62  1.24   7.10
+2017  5.35  1.22  3.87   7.47
+2018  7.07  1.62  5.60  11.09
+2019  5.04  1.79  1.32   7.74
+Pics locaux significatifs de l'ACF aux retards : []  (la période = premier grand pic récurrent)
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF (constante+tendance) : stat=-5.150  p=0.0001  -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0000
+Mann-Kendall (série brute) : tau=0.193 Z=2.28 p=0.0226 -> tendance croissante
+Pettitt : K=571 p=0.002455 -> rupture de niveau vers 2017.42
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=0.0437  p=0.7461  (n cycles=5)
+Coefficient de variation moyen sd/moyenne = 0.298 (sd des CV = 0.065; sd des sd = 0.23)
+-> modèle retenu : ADDITIF   (pente non significative => amplitude indépendante du niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (additive, période=12, complète)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:-0.476 2:+0.108 3:-0.922 4:-1.026 5:-0.388 6:+2.264 7:+2.068 8:+0.459 9:-0.014 10:-0.061 11:-0.307 12:-1.704
+Contrôle de normalisation : somme = 0.0000
+  MM centrée à la main t=7 : 4.273 | statsmodels : 4.273
+  MM centrée à la main t=8 : 4.174 | statsmodels : 4.174
+  MM centrée à la main t=9 : 4.182 | statsmodels : 4.182
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=-0.02499  sd=0.983
+Ljung-Box : p=0.2622 -> pas d'autocorrélation (bruit blanc plausible)
+Shapiro-Wilk : p=0.4187 -> normalité non rejetée
+3 observations les plus mal ajustées : [(2017.92, 6.95), (2018.08, 8.76), (2019.83, 2.91)]
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 48 obs. (jusqu'à 2018.92) | test = 18 obs. (de 2019.00 à 2020.42)
+Lissage exponentiel :
+  HW (sans tendance)     AICc=     52.56  SSE=55.5  alpha=0.260 beta=nan gamma=0.000
+  HW tendance            AICc=     60.29  SSE=52.9  alpha=0.136 beta=0.136 gamma=0.000
+  HW tendance amortie    AICc=     65.76  SSE=52.8  alpha=0.148 beta=0.148 gamma=0.000
+  -> lissage retenu (AICc minimal) : HW (sans tendance)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(1, 0, 1)x(0, 1, 1)[12]  AIC=141.5
+                               RMSE    MAE    MAPE
+ARIMA(1, 0, 1)x(0, 1, 1)[12]  2.715  2.280  67.829
+Lissage: HW (sans tendance)   2.723  2.289  68.068
+Naïf saisonnier               2.953  2.451  71.086
+Décomposition                 3.405  2.929  86.639
+==> meilleure méthode (RMSE) : ARIMA(1, 0, 1)x(0, 1, 1)[12]
+
+======================================================================
+⭐ Résidus = événements ? (dates des 5 plus grands écarts de la décomposition)
+======================================================================
+  2017.92  résidu=2.41  (grève ? vacances ? COVID ?)
+  2018.08  résidu=1.99  (grève ? vacances ? COVID ?)
+  2018.50  résidu=1.92  (grève ? vacances ? COVID ?)
+  2019.83  résidu=-1.96  (grève ? vacances ? COVID ?)
+  2019.92  résidu=-1.92  (grève ? vacances ? COVID ?)

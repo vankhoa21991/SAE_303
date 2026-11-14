@@ -1,0 +1,114 @@
+
+======================================================================
+DONNÉES — précipitations journalières, Boulder CO (COOP 050843), pouces
+======================================================================
+Jours : 23893 (1948-08-01 -> 2013-12-30) ; jours secs : 82.4 % ; médiane jour arrosé : 0.150 po ; total annuel médian : 17.2 po
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : pluie Boulder — total mensuel | n=785 | fréquence=12 | début=1948/8 | fin=2013.92
+summary : Min. 0 | 1st Qu. 0.53 | Median 1.1 | Mean 1.48 | 3rd Qu. 2 | Max. 17.7 | sd=1.44 | NA=0
+Descripteurs par cycle :
+ debut moyenne   sd  min  max
+  1949    1.62 1.97 0.10 7.03
+  1950    0.96 1.04 0.00 3.07
+  1951    1.25 0.76 0.19 2.23
+  1952    2.07 2.32 0.03 8.59
+  1953    1.26 1.08 0.00 3.47
+  1954    0.86 0.48 0.00 1.79
+  1955    1.02 0.73 0.20 2.25
+  1956    1.50 0.86 0.24 2.85
+  1957    1.66 2.34 0.00 8.61
+  1958    1.59 1.18 0.06 3.91
+  1959    1.49 1.18 0.51 3.71
+  1960    1.60 1.14 0.14 3.68
+  1961    1.65 1.10 0.26 3.48
+  1962    1.65 1.05 0.64 4.47
+  1963    1.07 1.28 0.17 4.58
+  1964    1.36 0.70 0.35 2.35
+  1965    1.59 1.28 0.22 4.81
+  1966    0.88 0.81 0.21 3.00
+  1967    1.86 1.67 0.30 5.00
+  1968    1.78 1.21 0.20 4.94
+  1969    2.16 2.51 0.35 8.51
+  1970    1.76 2.12 0.00 6.36
+  1971    1.59 1.64 0.10 5.40
+  1972    1.33 1.19 0.00 4.30
+  1973    1.81 1.52 0.20 5.50
+  1974    1.13 0.87 0.00 2.70
+  1975    1.23 0.86 0.00 2.80
+  1976    1.16 0.52 0.40 2.10
+  1977    1.21 1.12 0.20 3.10
+  1978    1.50 1.90 0.20 6.90
+  1979    1.73 1.53 0.10 5.40
+  1980    2.28 1.57 0.20 5.50
+  1981    1.38 1.24 0.20 4.80
+  1982    1.43 1.57 0.00 4.60
+  1983    1.86 1.66 0.00 4.70
+  1984    1.34 1.20 0.00 3.90
+  1985    1.45 1.01 0.00 4.00
+  1986    1.53 1.31 0.00 4.80
+  1987    1.75 1.58 0.00 5.70
+  1988    1.42 0.88 0.40 3.40
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF : stat=-10.362 p=0.0100 -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0100
+Mann-Kendall (moyennes par cycle) : tau=-0.072 Z=-0.84 p=0.3989 -> pas de tendance monotone significative
+Pettitt : K=7914 p=0.9206 -> pas de rupture significative
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=1.0038  p=0.0000  (n cycles=65)
+-> modèle retenu : ADDITIF   (série avec valeurs nulles/négatives : multiplicatif impossible)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (additive, période=12)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 8:+0.009 9:-0.072 10:-0.228 11:-0.385 12:-0.653 1:-0.799 2:-0.698 3:+0.295 4:+0.913 5:+1.281 6:+0.275 7:+0.061
+Contrôle de normalisation : somme = 0
+  MM centrée à la main t=7 : 1.625 | decompose : 1.623
+  MM centrée à la main t=8 : 1.621 | decompose : 1.586
+  MM centrée à la main t=9 : 1.552 | decompose : 1.591
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=-0.004777 sd=1.119
+Ljung-Box : p=5.333e-08 -> résidus autocorrélés (structure restante)
+Shapiro-Wilk : p=2.386e-19 -> non normaux
+3 observations les plus mal ajustées (temps, valeur) : (1951.58 ; 8.59) (1957.33 ; 8.61) (1995.33 ; 9.10)
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 665 obs. (jusqu'à 2003.92) | test = 120 obs. (de 2004.00 à 2013.92)
+Lissage exponentiel :
+  ets ANA   AICc=   4597.29  alpha=0.000 beta=- gamma=0
+  ets AAA   AICc=   4605.14  alpha=0.000 beta=0 gamma=0
+  -> lissage retenu (AICc minimal) : ETS(A,N,A)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(0,0,0)x(1,12,0)[12]  AIC=2156.5
+                           RMSE   MAE    MAPE
+Décomposition             1.787 0.931 140.038
+ARIMA(0,0,0)x(1,12,0)[12] 1.790 0.928 136.806
+Lissage: ETS(A,N,A)       1.791 0.930 136.590
+Naïf saisonnier           2.342 1.454 161.898
+==> meilleure méthode (RMSE) : Décomposition
+
+======================================================================
+⭐ Climatologie mensuelle (série journalière)
+======================================================================
+Proportion de jours secs par mois :  1=89%   2=85%   3=79%   4=76%   5=74%   6=80%   7=79%   8=82%   9=84%  10=86%  11=86%  12=87%
+Climatologie mensuelle par décennie : CV inter-décennies par mois — max 0.87 (mois 6) ; moyenne des CV = 0.39. La saisonnalité est-elle stable sur 65 ans ?
+
+======================================================================
+⭐ Tests sur les totaux ANNUELS (65 ans)
+======================================================================
+ADF annuel : stat=-4.024, p=0.01413 -> stationnaire
+Mann-Kendall annuel : Z=0.12, p=0.9031 -> pas de tendance significative
+Pettitt annuel : K=199, p=0.886, changement possible après l'observation 20 (≈ année 1967)

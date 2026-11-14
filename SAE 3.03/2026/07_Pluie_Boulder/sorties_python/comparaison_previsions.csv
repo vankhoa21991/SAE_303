@@ -1,0 +1,5 @@
+,RMSE,MAE,MAPE
+Décomposition,1.785,0.926,140.143
+Lissage: HW tendance amortie,1.786,0.924,137.563
+"ARIMA(0, 0, 0)x(0, 1, 1)[12]",1.787,0.923,136.91
+Naïf saisonnier,2.34,1.453,161.839

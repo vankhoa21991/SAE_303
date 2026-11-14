@@ -1,0 +1,62 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : mdeaths | n=72 | fréquence=12 | début=1974/1 | fin=1979.92
+summary : Min. 940 | 1st Qu. 1138.25 | Median 1344 | Mean 1495.94 | 3rd Qu. 1846 | Max. 2750 | sd=433.15 | NA=0
+Descripteurs par cycle :
+ debut moyenne     sd  min  max
+  1974 1589.25 328.79 1131 2134
+  1975 1603.92 427.50 1053 2153
+  1976 1558.08 579.87  970 2750
+  1977 1410.58 391.87  959 2240
+  1978 1444.08 451.15  970 2284
+  1979 1369.75 414.86  940 2263
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF : stat=-6.863 p=0.0100 -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0100
+Mann-Kendall (moyennes par cycle) : tau=-0.733 Z=-1.88 p=0.06029 -> pas de tendance monotone significative
+Pettitt : K=533 p=0.02212 -> rupture de niveau vers 1976.33
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=0.0732  p=0.8686  (n cycles=6)
+-> modèle retenu : ADDITIF   (pente non significative => amplitude indépendante du niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (additive, période=12)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:+620.447 2:+619.614 3:+487.356 4:+117.222 5:-211.428 6:-308.694 7:-371.061 8:-474.378 9:-485.961 10:-247.619 11:-121.228 12:+375.731
+Contrôle de normalisation : somme = 0
+  MM centrée à la main t=7 : 1589.250 | decompose : 1587.958
+  MM centrée à la main t=8 : 1586.667 | decompose : 1598.083
+  MM centrée à la main t=9 : 1609.500 | decompose : 1621.000
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=1.603 sd=146.6
+Ljung-Box : p=0.005437 -> résidus autocorrélés (structure restante)
+Shapiro-Wilk : p=0.01288 -> non normaux
+3 observations les plus mal ajustées (temps, valeur) : (1976.08 ; 2750.00) (1977.08 ; 1634.00) (1979.00 ; 2263.00)
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 48 obs. (jusqu'à 1977.92) | test = 24 obs. (de 1978.00 à 1979.92)
+Lissage exponentiel :
+  ets ANA   AICc=    724.46  alpha=0.131 beta=- gamma=0
+  ets AAA   AICc=    730.11  alpha=0.017 beta=0.017 gamma=0
+  -> lissage retenu (AICc minimal) : ETS(A,N,A)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(0,1,0)x(1,12,0)[12]  AIC=500.6
+                             RMSE     MAE   MAPE
+Décomposition             156.243 117.770  8.773
+Lissage: ETS(A,N,A)       163.390 116.528  8.247
+Naïf saisonnier           199.986 134.167  8.535
+ARIMA(0,1,0)x(1,12,0)[12] 202.169 159.085 11.979
+==> meilleure méthode (RMSE) : Décomposition

@@ -75,12 +75,7 @@ L'énoncé illustre le type de séries mobilisables (probablement une liste dans
 ### 2.2 Présentation personnelle (2-3 min)
 
 > "Je me présente rapidement : je m'appelle XYZ, je suis data scientist en poste, actuellement dans une entreprise d'e-commerce. Avant ça, j'ai travaillé comme data scientist et ingénieur IA dans plusieurs entreprises et sur des domaines assez différents : l'automobile, l'imagerie médicale, et maintenant l'e-commerce. 
->
-> C'est ma première fois à encadrer cette SAE. Si vous avez des questions n'hesite pas de le demander. Et je ne souhaite pas que vous parler quand je parle, apres je vais vous donner le temps pour poser des questions
->
-> N'hésitez pas à me poser des questions à tout moment, y compris des questions bêtes — sur ce genre de projet, il n'y a jamais de mauvaise question, seulement des hypothèses qu'on n'a pas vérifiées. Et si une question me sort de mon domaine de confort, je vous le dirai aussi honnêtement plutôt que d'inventer une réponse.
->
-> Aujourd'hui, mon rôle n'est pas de vous donner la réponse, mais de vous aider à structurer votre démarche et à ne pas rester bloqués sur un point technique — un peu comme je le ferais avec un collègue junior en entreprise. Allons-y."
+
 
 ### 2.3 Cadrage du module (3-4 min)
 

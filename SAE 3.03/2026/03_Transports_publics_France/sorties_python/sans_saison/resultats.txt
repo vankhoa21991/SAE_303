@@ -1,0 +1,46 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : Retard moyen à l'arrivée (toutes liaisons) (min) | n=66 | fréquence=12 | début=(2015, 1) | fin≈2020.42
+min=1.24 q1=3.96 médiane=5.08 moyenne=5.19 q3=6.38 max=11.09 sd=1.84  NA=0
+Descripteurs par cycle :
+      mean   std   min    max
+2015  4.33  1.26  2.30   6.68
+2016  4.18  1.62  1.24   7.10
+2017  5.35  1.22  3.87   7.47
+2018  7.07  1.62  5.60  11.09
+2019  5.04  1.79  1.32   7.74
+Pics locaux significatifs de l'ACF aux retards : []  (la période = premier grand pic récurrent)
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF (constante+tendance) : stat=-5.150  p=0.0001  -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0000
+Mann-Kendall (série brute) : tau=0.193 Z=2.28 p=0.0226 -> tendance croissante
+Pettitt : K=571 p=0.002455 -> rupture de niveau vers 2017.42
+
+======================================================================
+Pas de saisonnalité : décomposition = tendance (régression) + résidus
+======================================================================
+Tendance linéaire : pente=0.3028 par unité de temps ; écart-type résiduel=1.778
+Résidus autour de la droite — Ljung-Box p=0.08163, Shapiro p=0.5819
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 48 obs. (jusqu'à 2018.92) | test = 18 obs. (de 2019.00 à 2020.42)
+Lissage exponentiel :
+  LES                    AICc=     45.42  SSE=111.6  alpha=0.261 beta=nan gamma=nan
+  Holt                   AICc=     45.10  SSE=99.6  alpha=0.000 beta=0.000 gamma=nan
+  Holt amorti            AICc=     48.41  SSE=100.8  alpha=0.000 beta=0.000 gamma=nan
+  -> lissage retenu (AICc minimal) : Holt
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(1, 0, 0)  AIC=181.9
+                         RMSE    MAE    MAPE
+ARIMA(1, 0, 0)          1.885  1.446  43.028
+Naïf (dernière valeur)  2.115  1.715  54.357
+Lissage: Holt           3.407  2.889  91.491
+Décomposition           3.407  2.889  91.491
+==> meilleure méthode (RMSE) : ARIMA(1, 0, 0)

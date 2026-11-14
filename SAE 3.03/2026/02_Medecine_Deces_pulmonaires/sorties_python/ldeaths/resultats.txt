@@ -1,0 +1,71 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : ldeaths (décès) | n=72 | fréquence=12 | début=(1974, 1) | fin≈1979.92
+min=1300.00 q1=1551.75 médiane=1870.00 moyenne=2056.62 q3=2552.50 max=3891.00 sd=609.85  NA=0
+Descripteurs par cycle :
+         mean     std     min     max
+1974  2178.33  494.60  1524.0  3035.0
+1975  2175.08  602.25  1396.0  2938.0
+1976  2143.17  831.87  1300.0  3891.0
+1977  1935.75  552.08  1346.0  3102.0
+1978  1995.92  621.57  1357.0  3137.0
+1979  1911.50  572.25  1333.0  3084.0
+Pics locaux significatifs de l'ACF aux retards : [12]  (la période = premier grand pic récurrent)
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF (constante+tendance) : stat=-6.310  p=0.0000  -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0000
+Mann-Kendall (moyennes par cycle) : tau=-0.867 Z=-2.25 p=0.02417 -> tendance décroissante
+Pettitt : K=493 p=0.04241 -> rupture de niveau vers 1976.33
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=0.2116  p=0.6695  (n cycles=6)
+Coefficient de variation moyen sd/moyenne = 0.298 (sd des CV = 0.048; sd des sd = 106.05)
+-> modèle retenu : ADDITIF   (pente non significative => amplitude indépendante du niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (additive, période=12, complète)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:+873.751 2:+896.335 3:+687.543 4:+156.585 5:-284.482 6:-440.024 7:-519.424 8:-669.874 9:-678.224 10:-354.307 11:-185.207 12:+517.326
+Contrôle de normalisation : somme = 0.0000
+  MM centrée à la main t=7 : 2174.083 | statsmodels : 2174.083
+  MM centrée à la main t=8 : 2183.875 | statsmodels : 2183.875
+  MM centrée à la main t=9 : 2207.667 | statsmodels : 2207.667
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=2.165  sd=205.6
+Ljung-Box : p=0.005829 -> résidus autocorrélés (structure restante)
+Shapiro-Wilk : p=0.0027 -> non normaux
+3 observations les plus mal ajustées : [(1976.08, 3891.0), (1977.08, 2294.0), (1976.17, 3179.0)]
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 48 obs. (jusqu'à 1977.92) | test = 24 obs. (de 1978.00 à 1979.92)
+Lissage exponentiel :
+  HW (sans tendance)     AICc=    570.86  SSE=2717136.5  alpha=0.117 beta=nan gamma=0.000
+  HW tendance            AICc=    576.04  SSE=2455927.0  alpha=0.000 beta=0.000 gamma=0.000
+  HW tendance amortie    AICc=    581.95  SSE=2473948.0  alpha=0.000 beta=0.000 gamma=0.000
+  -> lissage retenu (AICc minimal) : HW (sans tendance)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(0, 0, 1)x(0, 1, 1)[12]  AIC=527.3
+                                 RMSE      MAE   MAPE
+Lissage: HW (sans tendance)   193.944  135.866  7.027
+Décomposition                 206.684  165.703  9.195
+ARIMA(0, 0, 1)x(0, 1, 1)[12]  213.496  153.606  7.989
+Naïf saisonnier               256.225  167.792  7.452
+==> meilleure méthode (RMSE) : Lissage: HW (sans tendance)
+
+======================================================================
+Additif vs multiplicatif — critère chiffré (reconstruction tendance ⊕ saison)
+======================================================================
+  additive        RMSE=203.923  MAPE=6.57%  autocorr(1) des résidus=0.10
+  multiplicative  RMSE=202.433  MAPE=6.32%  autocorr(1) des résidus=0.08

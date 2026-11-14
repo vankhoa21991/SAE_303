@@ -1,0 +1,65 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : fdeaths (décès) | n=72 | fréquence=12 | début=(1974, 1) | fin≈1979.92
+min=330.00 q1=411.00 médiane=512.00 moyenne=560.68 q3=681.50 max=1141.00 sd=179.72  NA=0
+Descripteurs par cycle :
+        mean     std    min     max
+1974  589.08  169.74  387.0   901.0
+1975  571.17  176.15  343.0   830.0
+1976  585.08  252.61  330.0  1141.0
+1977  525.17  162.85  348.0   862.0
+1978  551.83  170.89  362.0   853.0
+1979  541.75  160.01  379.0   821.0
+Pics locaux significatifs de l'ACF aux retards : [12]  (la période = premier grand pic récurrent)
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF (constante+tendance) : stat=-6.346  p=0.0000  -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0000
+Mann-Kendall (moyennes par cycle) : tau=-0.600 Z=-1.50 p=0.1329 -> pas de tendance monotone significative
+Pettitt : K=364 p=0.2447 -> pas de rupture significative
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+Régression sd = a*moyenne + b : a=0.7814  p=0.2429  (n cycles=6)
+Coefficient de variation moyen sd/moyenne = 0.324 (sd des CV = 0.049; sd des sd = 32.00)
+-> modèle retenu : ADDITIF   (pente non significative => amplitude indépendante du niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (additive, période=12, complète)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:+253.304 2:+276.721 3:+200.188 4:+39.362 5:-73.054 6:-131.329 7:-148.362 8:-195.496 9:-192.262 10:-106.688 11:-63.979 12:+141.596
+Contrôle de normalisation : somme = 0.0000
+  MM centrée à la main t=7 : 586.125 | statsmodels : 586.125
+  MM centrée à la main t=8 : 585.792 | statsmodels : 585.792
+  MM centrée à la main t=9 : 586.667 | statsmodels : 586.667
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=0.5625  sd=63.46
+Ljung-Box : p=0.01034 -> résidus autocorrélés (structure restante)
+Shapiro-Wilk : p=0.0005 -> non normaux
+3 observations les plus mal ajustées : [(1976.08, 1141.0), (1977.08, 660.0), (1976.17, 896.0)]
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 48 obs. (jusqu'à 1977.92) | test = 24 obs. (de 1978.00 à 1979.92)
+Lissage exponentiel :
+  HW (sans tendance)     AICc=    459.14  SSE=265055.0  alpha=0.000 beta=nan gamma=0.000
+  HW tendance            AICc=    465.61  SSE=246080.2  alpha=0.000 beta=0.000 gamma=0.000
+  HW tendance amortie    AICc=    471.33  SSE=246926.1  alpha=0.000 beta=0.000 gamma=0.000
+  -> lissage retenu (AICc minimal) : HW (sans tendance)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(0, 0, 0)x(0, 1, 1)[12]  AIC=443.1
+                                RMSE     MAE    MAPE
+ARIMA(0, 0, 0)x(0, 1, 1)[12]  48.013  37.430   6.972
+Lissage: HW (sans tendance)   48.573  37.917   7.047
+Décomposition                 59.431  48.690  10.371
+Naïf saisonnier               64.736  49.042   8.213
+==> meilleure méthode (RMSE) : ARIMA(0, 0, 0)x(0, 1, 1)[12]

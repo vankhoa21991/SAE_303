@@ -1,0 +1,5 @@
+"","RMSE","MAE","MAPE"
+"Naïf (dernière valeur)",2.115,1.715,54.357
+"ARIMA(1,1,0)",2.511,2.071,66.689
+"Lissage: ETS(A,A,N)",3.278,2.772,88.107
+"Décomposition",3.407,2.889,91.491

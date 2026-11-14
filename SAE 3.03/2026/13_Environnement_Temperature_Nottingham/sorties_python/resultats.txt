@@ -1,0 +1,78 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : nottem (°F) | n=240 | fréquence=12 | début=(1920, 1) | fin≈1939.92
+min=31.30 q1=41.55 médiane=47.35 moyenne=49.04 q3=57.00 max=66.50 sd=8.57  NA=0
+Descripteurs par cycle :
+       mean    std   min   max
+1920  48.89   7.15  39.8  58.5
+1921  50.73   8.76  39.7  66.3
+1922  47.28   7.91  37.5  57.8
+1923  47.82   8.73  36.3  64.2
+1924  48.72   8.39  37.5  60.8
+1925  48.46   9.60  36.3  63.5
+1926  49.37   8.47  39.2  62.5
+1927  48.37   8.47  35.2  60.5
+1928  48.99   8.26  37.3  62.2
+1929  48.13  10.40  31.3  62.5
+1930  49.15   8.97  37.1  61.6
+1931  48.13   8.54  37.1  60.6
+1932  49.02   8.73  38.4  63.5
+1933  50.19  10.87  35.8  65.5
+1934  50.32   9.50  38.2  66.5
+1935  49.86   9.49  36.4  64.6
+1936  48.60   9.31  35.0  61.1
+1937  49.10   9.23  37.1  61.8
+1938  50.28   7.48  39.2  60.4
+1939  49.39   8.61  37.8  61.8
+Pics locaux significatifs de l'ACF aux retards : [12]  (la période = premier grand pic récurrent)
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF (constante+tendance) : stat=-3.669  p=0.0245  -> stationnaire (rejette H0 racine unitaire)
+ADF sur la série différenciée : p=0.0000
+Mann-Kendall (moyennes par cycle) : tau=0.311 Z=1.88 p=0.05973 -> pas de tendance monotone significative
+Pettitt : K=1348 p=0.9119 -> pas de rupture significative
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (additive, période=12, complète)
+======================================================================
+Coefficients saisonniers (mois:valeur) : 1:-9.339 2:-9.900 3:-6.947 4:-2.757 5:+3.453 6:+8.987 7:+12.967 8:+11.459 9:+7.400 10:+0.655 11:-6.618 12:-9.360
+Contrôle de normalisation : somme = 0.0000
+  MM centrée à la main t=7 : 49.042 | statsmodels : 49.042
+  MM centrée à la main t=8 : 49.150 | statsmodels : 49.150
+  MM centrée à la main t=9 : 49.138 | statsmodels : 49.138
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne résidus=-0.02248  sd=2.079
+Ljung-Box : p=7.138e-07 -> résidus autocorrélés (structure restante)
+Shapiro-Wilk : p=0.373 -> normalité non rejetée
+3 observations les plus mal ajustées : [(1929.08, 31.3), (1922.33, 55.7), (1922.58, 54.3)]
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 204 obs. (jusqu'à 1936.92) | test = 36 obs. (de 1937.00 à 1939.92)
+Lissage exponentiel :
+  HW (sans tendance)     AICc=    368.24  SSE=1066.1  alpha=0.056 beta=nan gamma=0.000
+  HW tendance            AICc=    370.89  SSE=1054.9  alpha=0.000 beta=0.000 gamma=0.000
+  HW tendance amortie    AICc=    373.77  SSE=1057.2  alpha=0.033 beta=0.000 gamma=0.000
+  -> lissage retenu (AICc minimal) : HW (sans tendance)
+Modèle ARIMA :
+  modèle retenu (AIC minimal, d par ADF) : ARIMA(1, 0, 0)x(1, 1, 1)[12]  AIC=885.2
+                               RMSE    MAE   MAPE
+Décomposition                 2.055  1.563  3.381
+Lissage: HW (sans tendance)   2.058  1.558  3.369
+ARIMA(1, 0, 0)x(1, 1, 1)[12]  2.166  1.743  3.714
+Naïf saisonnier               3.113  2.394  5.428
+==> meilleure méthode (RMSE) : Décomposition
+
+======================================================================
+⭐ Que reste-t-il dans les résidus ? (ordre AR par AIC)
+======================================================================
+ordre AR sélectionné : [1, 2, 3, 4, 5, 6]
+coefficients AR : [ 0.033 -0.064 -0.126 -0.224 -0.274 -0.196 -0.15 ]
