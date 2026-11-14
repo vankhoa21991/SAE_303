@@ -75,15 +75,10 @@ ann <- as.numeric(ann_t)
 ad <- adf.test(ann)
 say(sprintf("ADF annuel : stat=%.3f, p=%.4g -> %s", ad$statistic, ad$p.value,
             if (ad$p.value > 0.05) "racine unitaire non rejetée" else "stationnaire"))
-mk <- mann_kendall(ann)
-if (mk$p < 0.05) {
-  say(sprintf("Mann-Kendall annuel : Z=%.2f, p=%.4g (tau=%.3f) -> tendance %s", mk$Z, mk$p, mk$tau, if (mk$Z > 0) "croissante" else "décroissante"))
-} else {
-  say(sprintf("Mann-Kendall annuel : Z=%.2f, p=%.4g -> pas de tendance significative", mk$Z, mk$p))
-}
-pt <- pettitt(ann)
-say(sprintf("Pettitt annuel : K=%d, p=%.4g, changement possible après l'observation %d (≈ année %d)",
-            pt$K, pt$p, pt$idx + 1, as.integer(format(full[1], "%Y")) + pt$idx))
+mk <- mk.test(ann)
+say(sprintf("Mann-Kendall annuel : p=%.4g, tau=%.3f -> %s", mk$p.value, mk$estimates["tau"], if (mk$p.value < 0.05) "tendance significative" else "pas de tendance significative"))
+pt <- pettitt.test(ann); idx <- as.numeric(pt$estimate[1])
+say(sprintf("Pettitt annuel : p=%.4g, changement possible après l'observation %d (≈ année %d)", pt$p.value, idx + 1, as.integer(format(full[1], "%Y")) + idx))
 
 # (le tableau de comparaison des méthodes vs naïf saisonnier est déjà dans la section ÉTAPE 8 du log)
 save_log()

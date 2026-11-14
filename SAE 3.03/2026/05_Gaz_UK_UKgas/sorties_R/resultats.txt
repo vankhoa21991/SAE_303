@@ -4,93 +4,59 @@
 ======================================================================
 Série : UKgas | n=108 | fréquence=4 | début=1960/1 | fin=1986.75
 summary : Min. 84.8 | 1st Qu. 153.3 | Median 220.9 | Mean 337.63 | 3rd Qu. 469.9 | Max. 1163.9 | sd=251.33 | NA=0
-Descripteurs par cycle :
- debut moyenne     sd   min    max
-  1960  123.67  31.02  84.8  160.1
-  1961  121.67  30.93  84.8  160.1
-  1962  130.90  33.47  89.7  169.7
-  1963  136.10  40.03  92.9  187.3
-  1964  134.10  36.63  89.7  176.1
-  1965  142.90  36.61  99.3  185.7
-  1966  150.10  41.22 102.5  200.1
-  1967  158.50  40.52 112.1  204.9
-  1968  170.10  50.57 115.3  227.3
-  1969  182.90  57.28 118.5  244.9
-  1970  198.10  43.55 142.5  244.9
-  1971  225.32  73.62 136.1  301.0
-  1972  258.95  84.78 152.1  336.2
-  1973  281.35 100.64 158.5  371.4
-  1974  329.80 121.60 179.3  449.9
-  1975  350.20 134.26 177.7  491.5
-  1976  395.82 182.17 176.1  593.9
-  1977  413.02 169.11 187.3  584.3
-  1978  453.85 188.88 216.1  669.2
-  1979  511.90 254.28 209.7  827.7
-  1980  535.90 275.04 217.7  840.5
-  1981  549.10 283.16 209.7  848.5
-  1982  566.70 306.33 214.5  925.3
-  1983  587.92 292.99 224.1  917.3
-  1984  607.55 325.36 233.7  989.4
-  1985  672.78 344.82 281.8 1087.0
-  1986  726.80 342.08 347.4 1163.9
 
 ======================================================================
 ÉTAPE 5 — TESTS
 ======================================================================
-ADF : stat=-1.608 p=0.7393 -> NON stationnaire (H0 racine unitaire conservée)
-ADF sur la série différenciée : p=0.0100
-Mann-Kendall (moyennes par cycle) : tau=0.989 Z=7.21 p=5.471e-13 -> tendance croissante
-Pettitt : K=2612 p=2.079e-14 -> rupture de niveau vers 1972.75
+ADF : p=0.7393 -> NON stationnaire
+Mann-Kendall : p=2.753e-22 -> tendance significative
+Pettitt : p=2.079e-14 -> rupture de niveau vers 1972.75
 
 ======================================================================
 ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
 ======================================================================
-Régression sd = a*moyenne + b : a=0.5801  p=0.0000  (n cycles=27)
--> modèle retenu : MULTIPLICATIF   (pente significativement > 0 => amplitude proportionnelle au niveau)
+sd = a*moyenne + b : a=0.5801, p=0.0000 (27 cycles)
+-> modèle retenu : MULTIPLICATIVE  (pente significativement > 0 => amplitude proportionnelle au niveau)
 
 ======================================================================
 ÉTAPE 6b — DÉCOMPOSITION (multiplicative, période=4)
 ======================================================================
 Coefficients saisonniers : 1.454 0.956 0.558 1.032
-Contrôle de normalisation : moyenne = 1
-  MM centrée à la main t=3 : 123.675 | decompose : 123.675
-  MM centrée à la main t=4 : 123.075 | decompose : 123.075
-  MM centrée à la main t=5 : 122.475 | decompose : 122.475
+Contrôle : moyenne = 1
+  MM t=3 : ma()=123.675 | decompose=123.675
+  MM t=4 : ma()=123.075 | decompose=123.075
+  MM t=5 : ma()=122.475 | decompose=122.475
 
 ======================================================================
 ÉTAPE 7 — VALIDATION DES RÉSIDUS
 ======================================================================
-moyenne résidus=5.882e-05 sd=0.1679
-Ljung-Box : p=0 -> résidus autocorrélés (structure restante)
-Shapiro-Wilk : p=0.004029 -> non normaux
-3 observations les plus mal ajustées (temps, valeur) : (1970.50 ; 188.90) (1970.75 ; 142.50) (1981.50 ; 209.70)
+moyenne=5.882e-05 sd=0.1679 | Ljung-Box p=0 (autocorrélés) | Shapiro p=0.004029 (non normaux)
+3 observations les moins bien ajustées (temps ; valeur) : (1970.50 ; 188.90) (1970.75 ; 142.50) (1981.50 ; 209.70)
 
 ======================================================================
 ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
 ======================================================================
-train = 100 obs. (jusqu'à 1984.75) | test = 8 obs. (de 1985.00 à 1986.75)
-Lissage exponentiel :
-  ets MNM   AICc=   1172.87  alpha=0.115 beta=- gamma=0.713
-  ets MAM   AICc=   1144.34  alpha=0.028 beta=0.028 gamma=0.584
-  ets MAM  (amorti) AICc=   1148.87  alpha=0.031 beta=0.031 gamma=0.597
-  -> lissage retenu (AICc minimal) : ETS(M,A,M)
-Modèle ARIMA :
-  modèle retenu (AIC minimal, d par ADF) : ARIMA(1,1,2)x(0,1,1)[4] sur log  AIC=-154.5
-                                   RMSE     MAE   MAPE
-ARIMA(1,1,2)x(0,1,1)[4] sur log  74.316  64.403 11.083
-Lissage: ETS(M,A,M)              78.316  68.147 11.524
-Naïf saisonnier                 101.942  92.238 15.098
-Décomposition                   170.739 129.603 15.538
-==> meilleure méthode (RMSE) : ARIMA(1,1,2)x(0,1,1)[4] sur log
+train = 100 obs. | test = 8 obs. (de 1985.00 à 1986.75)
+LES : alpha=0.133 | LED : alpha=0.059 beta=0.876
+Holt-Winters : alpha=0.027 beta=1.000 gamma=0.677
+auto.arima : ARIMA(0,0,0)(1,1,0)[4] with drift
+                                     RMSE     MAE   MAPE
+ARIMA(0,0,0)(1,1,0)[4] with drift  45.947  40.025  7.602
+Holt-Winters                       76.518  66.545 11.348
+Naïf                              101.942  92.238 15.098
+Décomposition (tendance + saison) 170.739 129.603 15.538
+LED (Holt)                        321.387 265.447 42.178
+LES                               327.191 267.271 41.560
+==> meilleure méthode (RMSE) : ARIMA(0,0,0)(1,1,0)[4] with drift
 
 ======================================================================
-Tendance globale vs tendance ajustée après la rupture (obs. >= 52)
+Tendance globale vs ajustée après la rupture (obs. >= 52)
 ======================================================================
   tendance globale         RMSE=170.739 MAPE=15.54%
   tendance post-rupture    RMSE=134.521 MAPE=14.99%
 
 ======================================================================
-Holt-Winters multiplicatif brut vs additif sur log(y) (retransformé par exp)
+Holt-Winters multiplicatif brut vs additif sur log(y)
 ======================================================================
-  HW multiplicatif (brut)    RMSE=78.316 MAE=68.147 MAPE=11.52%
-  HW additif sur log         RMSE=73.497 MAE=63.415 MAPE=10.93%
+  HW multiplicatif (brut)    RMSE=76.518 MAE=66.545 MAPE=11.35%
+  HW additif sur log         RMSE=74.956 MAE=64.916 MAPE=11.13%

@@ -17,7 +17,7 @@ hdr("⭐ Tendance linéaire vs quadratique (décomposition, sur le test)")
 ntr <- length(co2i) - 84
 tr <- window(co2i, end = time(co2i)[ntr]); yt <- as.numeric(window(co2i, start = time(co2i)[ntr + 1]))
 for (k in c("linear", "quad")) { m <- metrics(yt, fc_decomposition(tr, 84, 12, "additive", k)); say(sprintf("  %-7s RMSE=%.3f MAE=%.3f", k, m["RMSE"], m["MAE"])) }
-mod <- ets(co2i, model = "AAAd")                       # HW additif, tendance amortie (4e caractère = amorti)
-fc <- as.numeric(forecast(mod, h = (2025 - 1997) * 12 + 12)$mean)
+mod <- HoltWinters(co2i, seasonal = "additive")        # Holt-Winters additif sur toute la série (comme TP04)
+fc <- as.numeric(predict(mod, n.ahead = (2025 - 1997) * 12 + 12))
 say(sprintf("Extrapolation HW (série complète) : déc. 2025 ≈ %.1f ppm -> à comparer à la valeur NOAA/Scripps réelle (cherchez-la et commentez l'écart)", fc[length(fc)]))
 save_log()

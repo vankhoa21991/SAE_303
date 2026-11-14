@@ -4,41 +4,29 @@
 ======================================================================
 Série : Retard moyen à l'arrivée (toutes liaisons) | n=66 | fréquence=12 | début=2015/1 | fin=2020.42
 summary : Min. 1.24 | 1st Qu. 3.96 | Median 5.08 | Mean 5.19 | 3rd Qu. 6.38 | Max. 11.09 | sd=1.84 | NA=0
-Descripteurs par cycle :
- debut moyenne   sd  min   max
-  2015    4.33 1.26 2.30  6.68
-  2016    4.18 1.62 1.24  7.10
-  2017    5.35 1.22 3.87  7.47
-  2018    7.07 1.62 5.60 11.09
-  2019    5.04 1.79 1.32  7.74
 
 ======================================================================
 ÉTAPE 5 — TESTS
 ======================================================================
-ADF : stat=-2.396 p=0.4144 -> NON stationnaire (H0 racine unitaire conservée)
-ADF sur la série différenciée : p=0.0100
-Mann-Kendall (série brute) : tau=0.193 Z=2.28 p=0.0226 -> tendance croissante
-Pettitt : K=571 p=0.002455 -> rupture de niveau vers 2017.42
+ADF : p=0.4144 -> NON stationnaire
+Mann-Kendall : p=0.0226 -> tendance significative
+Pettitt : p=0.002455 -> rupture de niveau vers 2017.42
 
 ======================================================================
-Pas de saisonnalité : décomposition = tendance (régression) + résidus
+Pas de saisonnalité : tendance (lm) + résidus
 ======================================================================
-Tendance linéaire : pente=0.3028 ; sd résiduel=1.778
-Résidus — Ljung-Box p=0.08163, Shapiro p=0.5819
+pente=0.3028 ; sd résiduel=1.778 ; Ljung-Box p=0.08163 ; Shapiro p=0.5819
 
 ======================================================================
 ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
 ======================================================================
-train = 48 obs. (jusqu'à 2018.92) | test = 18 obs. (de 2019.00 à 2020.42)
-Lissage exponentiel :
-  ets ANN   AICc=    232.86  alpha=0.261 beta=- gamma=-
-  ets AAN   AICc=    232.57  alpha=0.000 beta=0 gamma=-
-  -> lissage retenu (AICc minimal) : ETS(A,A,N)
-Modèle ARIMA :
-  modèle retenu (AIC minimal, d par ADF) : ARIMA(1,1,0)  AIC=177.8
-                        RMSE   MAE   MAPE
-Naïf (dernière valeur) 2.115 1.715 54.357
-ARIMA(1,1,0)           2.511 2.071 66.689
-Lissage: ETS(A,A,N)    3.278 2.772 88.107
-Décomposition          3.407 2.889 91.491
-==> meilleure méthode (RMSE) : Naïf (dernière valeur)
+train = 48 obs. | test = 18 obs. (de 2019.00 à 2020.42)
+LES : alpha=0.261 | LED : alpha=0.088 beta=0.000
+auto.arima : ARIMA(1,1,1)
+                     RMSE   MAE   MAPE
+Naïf                2.115 1.715 54.357
+ARIMA(1,1,1)        2.511 2.071 66.689
+LES                 2.588 2.157 69.100
+Tendance seule (lm) 3.407 2.889 91.491
+LED (Holt)          3.538 3.012 94.942
+==> meilleure méthode (RMSE) : Naïf

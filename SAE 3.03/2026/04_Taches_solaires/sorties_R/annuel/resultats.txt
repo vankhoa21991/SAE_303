@@ -4,67 +4,32 @@
 ======================================================================
 Série : sunspot.year | n=289 | fréquence=1 | début=1700/1 | fin=1988.00
 summary : Min. 0 | 1st Qu. 15.6 | Median 39 | Mean 48.61 | 3rd Qu. 68.9 | Max. 190.2 | sd=39.47 | NA=0
-Descripteurs par décennie :
- debut moyenne    sd  min   max
-  1700   21.60 16.09  5.0  58.0
-  1710   25.20 25.41  0.0  63.0
-  1720   52.40 38.81 11.0 122.0
-  1730   51.10 37.80  5.0 111.0
-  1740   36.79 26.72  5.0  80.9
-  1750   37.56 23.40  9.6  83.4
-  1760   53.75 29.20 11.4 106.1
-  1770   71.39 48.43  7.0 154.4
-  1780   71.24 46.12 10.2 132.0
-  1790   35.90 29.67  4.1  89.9
-  1800   27.51 17.26  2.5  47.5
-  1810   20.88 16.75  0.0  45.8
-  1820   27.02 25.26  1.8  67.0
-  1830   67.35 44.82  8.5 138.3
-  1840   57.23 38.89 10.7 124.7
-  1850   42.71 29.07  4.3  93.8
-  1860   48.88 27.93  7.3  95.8
-  1870   51.28 50.23  3.4 139.0
-  1880   37.73 23.66  6.3  63.7
-  1890   44.96 28.18  7.1  85.1
-  1900   35.53 23.35  2.7  63.5
-  1910   39.15 36.52  1.4 103.9
-  1920   42.03 25.85  5.8  77.8
-  1930   51.10 42.80  5.7 114.4
-  1940   72.02 53.40  9.6 151.6
-  1950   91.68 71.60  4.4 190.2
-  1960   60.91 39.84 10.2 112.3
-  1970   61.60 45.52 12.6 155.4
 
 ======================================================================
 ÉTAPE 5 — TESTS
 ======================================================================
-ADF : stat=-4.756 p=0.0100 -> stationnaire (rejette H0 racine unitaire)
-ADF sur la série différenciée : p=0.0100
-Mann-Kendall (série brute) : tau=0.115 Z=2.91 p=0.003585 -> tendance croissante
-Pettitt : K=4608 p=0.01039 -> rupture de niveau vers 1936.00
+ADF : p=0.0100 -> stationnaire (H0 racine unitaire rejetée)
+Mann-Kendall : p=0.003585 -> tendance significative
+Pettitt : p=0.01039 -> rupture de niveau vers 1936.00
 
 ======================================================================
-Pas de saisonnalité : décomposition = tendance (régression) + résidus
+Pas de saisonnalité : tendance (lm) + résidus
 ======================================================================
-Tendance linéaire : pente=0.0971 ; sd résiduel=38.631
-Résidus — Ljung-Box p=0, Shapiro p=2.432e-10
+pente=0.0971 ; sd résiduel=38.631 ; Ljung-Box p=0 ; Shapiro p=2.432e-10
 
 ======================================================================
 ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
 ======================================================================
-train = 259 obs. (jusqu'à 1958.00) | test = 30 obs. (de 1959.00 à 1988.00)
-Lissage exponentiel :
-  ets ANN   AICc=   3057.91  alpha=1.000 beta=- gamma=-
-  ets AAN   AICc=   3008.10  alpha=0.996 beta=0.977 gamma=-
-  -> lissage retenu (AICc minimal) : ETS(A,Ad,N)
-Modèle ARIMA :
-  modèle retenu (AIC minimal, d par ADF) : ARIMA(9,0,0)  AIC=2147.3
-                          RMSE     MAE    MAPE
-ARIMA(9,0,0)            35.869  29.755  71.843
-Décomposition           48.321  40.518 102.646
-Lissage: ETS(A,Ad,N)   110.616 100.434 371.726
-Naïf (dernière valeur) 124.947 115.853 415.592
-==> meilleure méthode (RMSE) : ARIMA(9,0,0)
+train = 259 obs. | test = 30 obs. (de 1959.00 à 1988.00)
+LES : alpha=1.000 | LED : alpha=1.000 beta=0.012
+auto.arima : ARIMA(2,0,1) with non-zero mean
+                                   RMSE     MAE    MAPE
+ARIMA(2,0,1) with non-zero mean  43.235  34.024  70.085
+Tendance seule (lm)              48.321  40.518 102.646
+Naïf                            124.947 115.853 415.592
+LES                             124.948 115.854 415.593
+LED (Holt)                      153.367 145.013 498.161
+==> meilleure méthode (RMSE) : ARIMA(2,0,1) with non-zero mean
 
 ======================================================================
 ⭐ PACF : ordre p de l'AR (retards significatifs)

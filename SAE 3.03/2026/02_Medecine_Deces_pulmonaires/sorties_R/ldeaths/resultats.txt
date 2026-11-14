@@ -4,65 +4,53 @@
 ======================================================================
 Série : ldeaths | n=72 | fréquence=12 | début=1974/1 | fin=1979.92
 summary : Min. 1300 | 1st Qu. 1551.75 | Median 1870 | Mean 2056.62 | 3rd Qu. 2552.5 | Max. 3891 | sd=609.85 | NA=0
-Descripteurs par cycle :
- debut moyenne     sd  min  max
-  1974 2178.33 494.60 1524 3035
-  1975 2175.08 602.25 1396 2938
-  1976 2143.17 831.87 1300 3891
-  1977 1935.75 552.08 1346 3102
-  1978 1995.92 621.57 1357 3137
-  1979 1911.50 572.25 1333 3084
 
 ======================================================================
 ÉTAPE 5 — TESTS
 ======================================================================
-ADF : stat=-6.841 p=0.0100 -> stationnaire (rejette H0 racine unitaire)
-ADF sur la série différenciée : p=0.0100
-Mann-Kendall (moyennes par cycle) : tau=-0.867 Z=-2.25 p=0.02417 -> tendance décroissante
-Pettitt : K=493 p=0.04241 -> rupture de niveau vers 1976.33
+ADF : p=0.0100 -> stationnaire (H0 racine unitaire rejetée)
+Mann-Kendall : p=0.01027 -> tendance significative
+Pettitt : p=0.04241 -> rupture de niveau vers 1976.33
 
 ======================================================================
 ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
 ======================================================================
-Régression sd = a*moyenne + b : a=0.2116  p=0.6695  (n cycles=6)
--> modèle retenu : ADDITIF   (pente non significative => amplitude indépendante du niveau)
+sd = a*moyenne + b : a=0.2116, p=0.6695 (6 cycles)
+-> modèle retenu : ADDITIVE  (pente significativement > 0 => amplitude proportionnelle au niveau)
 
 ======================================================================
 ÉTAPE 6b — DÉCOMPOSITION (additive, période=12)
 ======================================================================
-Coefficients saisonniers (mois:valeur) : 1:+873.751 2:+896.335 3:+687.543 4:+156.585 5:-284.482 6:-440.024 7:-519.424 8:-669.874 9:-678.224 10:-354.307 11:-185.207 12:+517.326
-Contrôle de normalisation : somme = 0
-  MM centrée à la main t=7 : 2178.333 | decompose : 2174.083
-  MM centrée à la main t=8 : 2169.833 | decompose : 2183.875
-  MM centrée à la main t=9 : 2197.917 | decompose : 2207.667
+Coefficients saisonniers : 873.751 896.335 687.543 156.585 -284.482 -440.024 -519.424 -669.874 -678.224 -354.307 -185.207 517.326
+Contrôle : somme = 0
+  MM t=7 : ma()=2174.083 | decompose=2174.083
+  MM t=8 : ma()=2183.875 | decompose=2183.875
+  MM t=9 : ma()=2207.667 | decompose=2207.667
 
 ======================================================================
 ÉTAPE 7 — VALIDATION DES RÉSIDUS
 ======================================================================
-moyenne résidus=2.165 sd=205.6
-Ljung-Box : p=0.005829 -> résidus autocorrélés (structure restante)
-Shapiro-Wilk : p=0.0027 -> non normaux
-3 observations les plus mal ajustées (temps, valeur) : (1976.08 ; 3891.00) (1977.08 ; 2294.00) (1976.17 ; 3179.00)
+moyenne=2.165 sd=205.6 | Ljung-Box p=0.005829 (autocorrélés) | Shapiro p=0.0027 (non normaux)
+3 observations les moins bien ajustées (temps ; valeur) : (1976.08 ; 3891.00) (1977.08 ; 2294.00) (1976.17 ; 3179.00)
 
 ======================================================================
 ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
 ======================================================================
-train = 48 obs. (jusqu'à 1977.92) | test = 24 obs. (de 1978.00 à 1979.92)
-Lissage exponentiel :
-  ets ANA   AICc=    757.80  alpha=0.116 beta=- gamma=0
-  ets AAA   AICc=    764.21  alpha=0.015 beta=0.015 gamma=0.003
-  -> lissage retenu (AICc minimal) : ETS(A,N,A)
-Modèle ARIMA :
-  modèle retenu (AIC minimal, d par ADF) : ARIMA(0,1,0)x(1,12,0)[12]  AIC=526.2
-                             RMSE     MAE  MAPE
-Lissage: ETS(A,N,A)       199.855 145.917 7.588
-Décomposition             206.684 165.703 9.195
-ARIMA(0,1,0)x(1,12,0)[12] 243.882 186.172 9.893
-Naïf saisonnier           256.225 167.792 7.452
-==> meilleure méthode (RMSE) : Lissage: ETS(A,N,A)
+train = 48 obs. | test = 24 obs. (de 1978.00 à 1979.92)
+LES : alpha=1.000 | LED : alpha=1.000 beta=0.177
+Holt-Winters : alpha=0.013 beta=1.000 gamma=0.000
+auto.arima : ARIMA(0,0,2)(1,1,0)[12] with drift
+                                       RMSE      MAE    MAPE
+ARIMA(0,0,2)(1,1,0)[12] with drift  162.214  139.179   7.978
+Décomposition (tendance + saison)   206.684  165.703   9.195
+Naïf                                256.225  167.792   7.452
+Holt-Winters                        388.325  347.485  18.960
+LES                                 666.360  617.024  36.391
+LED (Holt)                         1929.222 1701.952 103.633
+==> meilleure méthode (RMSE) : ARIMA(0,0,2)(1,1,0)[12] with drift
 
 ======================================================================
-Additif vs multiplicatif — critère chiffré (reconstruction tendance ⊕ saison)
+Additif vs multiplicatif — critère chiffré
 ======================================================================
-  additive        RMSE=203.923  MAPE=6.57%  autocorr(1) des résidus=0.10
-  multiplicative  RMSE=202.433  MAPE=6.32%  autocorr(1) des résidus=0.08
+  additive        RMSE=203.923  MAPE=6.57%  autocorr(1) résidus=0.10
+  multiplicative  RMSE=202.433  MAPE=6.32%  autocorr(1) résidus=0.08

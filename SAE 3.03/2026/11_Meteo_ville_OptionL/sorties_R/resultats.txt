@@ -4,55 +4,51 @@
 ======================================================================
 Série : Température mensuelle Minneapolis | n=62 | fréquence=12 | début=2012/10 | fin=2017.83
 summary : Min. -13.38 | 1st Qu. -2.83 | Median 8.52 | Mean 7.47 | 3rd Qu. 18.92 | Max. 22.58 | sd=11.36 | NA=0
-Descripteurs par cycle :
- debut moyenne    sd    min   max
-  2013    7.03 11.83  -8.64 22.45
-  2014    5.68 13.32 -12.96 21.52
-  2015    6.82 12.86 -13.38 22.17
-  2016    9.31 10.41  -8.30 22.39
-  2017    8.86 10.46  -6.56 22.58
 
 ======================================================================
 ÉTAPE 5 — TESTS
 ======================================================================
-ADF : stat=-11.072 p=0.0100 -> stationnaire (rejette H0 racine unitaire)
-ADF sur la série différenciée : p=0.0100
-Mann-Kendall (série brute) : tau=0.133 Z=1.52 p=0.1289 -> pas de tendance monotone significative
-Pettitt : K=292 p=0.2419 -> pas de rupture significative
+ADF : p=0.0100 -> stationnaire (H0 racine unitaire rejetée)
+Mann-Kendall : p=0.1289 -> pas de tendance significative
+Pettitt : p=0.2419 -> pas de rupture significative
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+sd = a*moyenne + b : a=-0.8606, p=0.0062 (5 cycles)
+-> modèle retenu : ADDITIVE  (pente significativement > 0 => amplitude proportionnelle au niveau)
+-> modèle IMPOSÉ dans solution.R : ADDITIVE (Buys-Ballot suggérait ADDITIVE)
 
 ======================================================================
 ÉTAPE 6b — DÉCOMPOSITION (additive, période=12)
 ======================================================================
-Coefficients saisonniers (mois:valeur) : 10:+1.782 11:-6.189 12:-13.834 1:-16.788 2:-15.645 3:-7.201 4:-0.344 5:+6.818 6:+12.735 7:+14.737 8:+13.839 9:+10.091
-Contrôle de normalisation : somme = 0
-  MM centrée à la main t=7 : 7.026 | decompose : 7.035
-  MM centrée à la main t=8 : 7.044 | decompose : 6.931
-  MM centrée à la main t=9 : 6.818 | decompose : 6.550
+Coefficients saisonniers : 1.782 -6.189 -13.834 -16.788 -15.645 -7.201 -0.344 6.818 12.735 14.737 13.839 10.091
+Contrôle : somme = 0
+  MM t=7 : ma()=7.035 | decompose=7.035
+  MM t=8 : ma()=6.931 | decompose=6.931
+  MM t=9 : ma()=6.550 | decompose=6.550
 
 ======================================================================
 ÉTAPE 7 — VALIDATION DES RÉSIDUS
 ======================================================================
-moyenne résidus=0.03063 sd=2.058
-Ljung-Box : p=0.008563 -> résidus autocorrélés (structure restante)
-Shapiro-Wilk : p=0.9332 -> normalité non rejetée
-3 observations les plus mal ajustées (temps, valeur) : (2017.08 ; -1.31) (2014.83 ; -4.38) (2015.08 ; -13.38)
+moyenne=0.03063 sd=2.058 | Ljung-Box p=0.008563 (autocorrélés) | Shapiro p=0.9332 (normaux)
+3 observations les moins bien ajustées (temps ; valeur) : (2017.08 ; -1.31) (2014.83 ; -4.38) (2015.08 ; -13.38)
 
 ======================================================================
 ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
 ======================================================================
-train = 50 obs. (jusqu'à 2016.83) | test = 12 obs. (de 2016.92 à 2017.83)
-Lissage exponentiel :
-  ets ANA   AICc=    310.89  alpha=0.348 beta=- gamma=0
-  ets AAA   AICc=    322.12  alpha=0.447 beta=0 gamma=0
-  -> lissage retenu (AICc minimal) : ETS(A,N,A)
-Modèle ARIMA :
-  modèle retenu (AIC minimal, d par ADF) : ARIMA(1,0,0)x(1,12,0)[12]  AIC=193.1
-                           RMSE   MAE    MAPE
-ARIMA(1,0,0)x(1,12,0)[12] 2.625 1.831  93.961
-Naïf saisonnier           2.788 2.122 198.524
-Lissage: ETS(A,N,A)       2.836 2.281 123.834
-Décomposition             3.043 2.558 133.552
-==> meilleure méthode (RMSE) : ARIMA(1,0,0)x(1,12,0)[12]
+train = 50 obs. | test = 12 obs. (de 2016.92 à 2017.83)
+LES : alpha=1.000 | LED : alpha=0.935 beta=1.000
+Holt-Winters : alpha=0.325 beta=0.002 gamma=1.000
+auto.arima : ARIMA(0,1,1)(0,1,1)[12]
+                                    RMSE    MAE     MAPE
+Naïf                               2.788  2.122  198.524
+Holt-Winters                       2.850  2.244  132.359
+Décomposition (tendance + saison)  3.043  2.558  133.552
+ARIMA(0,1,1)(0,1,1)[12]            3.152  2.751  180.646
+LES                               10.551  9.625  309.511
+LED (Holt)                        42.605 36.391 1412.704
+==> meilleure méthode (RMSE) : Naïf
 
 ======================================================================
 ⭐ Effet de la granularité (cycle jour/nuit vs année)

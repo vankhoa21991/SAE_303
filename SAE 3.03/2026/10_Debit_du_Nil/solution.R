@@ -10,9 +10,9 @@ res <- run_pipeline(y, 20, OUT, name = "Nile", seasonal = FALSE, trend = "mean")
 LOG <- res$log
 ntr <- length(y) - 20
 tr <- window(y, end = time(y)[ntr]); yt <- as.numeric(window(y, start = time(y)[ntr + 1]))
-pt <- pettitt(as.numeric(tr)); brk <- pt$idx            # rupture après l'observation brk (1-based)
+pt <- pettitt.test(as.numeric(tr)); brk <- as.numeric(pt$estimate[1])   # rupture après l'observation brk (1-based)
 hdr("⭐ Pettitt (train) + ADF avant/après")
-say(sprintf("rupture vers %d (p=%.2g)", time(tr)[min(brk + 1, ntr)], pt$p))
+say(sprintf("rupture vers %d (p=%.2g)", time(tr)[min(brk + 1, ntr)], pt$p.value))
 avant <- as.numeric(tr)[1:brk]; apres <- as.numeric(tr)[(brk + 1):ntr]
 for (k in c("avant", "après")) {
   seg <- if (k == "avant") avant else apres
@@ -20,7 +20,7 @@ for (k in c("avant", "après")) {
 }
 for (k in c("LES sur toute la série d'entraînement", "LES sur la période post-rupture seule")) {
   seg <- if (k == "LES sur toute la série d'entraînement") tr else ts(apres, frequency = 1)
-  m <- ets(seg, model = "ANN"); mm <- metrics(yt, as.numeric(forecast(m, 20)$mean))
-  say(sprintf("  %-42s alpha=%.3f RMSE=%.2f MAE=%.2f", k, m$par["alpha"], mm["RMSE"], mm["MAE"]))
+  m <- HoltWinters(seg, beta = FALSE, gamma = FALSE); mm <- metrics(yt, as.numeric(predict(m, n.ahead = 20)))
+  say(sprintf("  %-42s alpha=%.3f RMSE=%.2f MAE=%.2f", k, m$alpha, mm["RMSE"], mm["MAE"]))
 }
 save_log()

@@ -4,61 +4,50 @@
 ======================================================================
 Série : Retard moyen à l'arrivée (toutes liaisons) | n=66 | fréquence=12 | début=2015/1 | fin=2020.42
 summary : Min. 1.24 | 1st Qu. 3.96 | Median 5.08 | Mean 5.19 | 3rd Qu. 6.38 | Max. 11.09 | sd=1.84 | NA=0
-Descripteurs par cycle :
- debut moyenne   sd  min   max
-  2015    4.33 1.26 2.30  6.68
-  2016    4.18 1.62 1.24  7.10
-  2017    5.35 1.22 3.87  7.47
-  2018    7.07 1.62 5.60 11.09
-  2019    5.04 1.79 1.32  7.74
 
 ======================================================================
 ÉTAPE 5 — TESTS
 ======================================================================
-ADF : stat=-2.396 p=0.4144 -> NON stationnaire (H0 racine unitaire conservée)
-ADF sur la série différenciée : p=0.0100
-Mann-Kendall (série brute) : tau=0.193 Z=2.28 p=0.0226 -> tendance croissante
-Pettitt : K=571 p=0.002455 -> rupture de niveau vers 2017.42
+ADF : p=0.4144 -> NON stationnaire
+Mann-Kendall : p=0.0226 -> tendance significative
+Pettitt : p=0.002455 -> rupture de niveau vers 2017.42
 
 ======================================================================
 ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
 ======================================================================
-Régression sd = a*moyenne + b : a=0.0437  p=0.7461  (n cycles=5)
--> modèle retenu : ADDITIF   (pente non significative => amplitude indépendante du niveau)
+sd = a*moyenne + b : a=0.0437, p=0.7461 (5 cycles)
+-> modèle retenu : ADDITIVE  (pente significativement > 0 => amplitude proportionnelle au niveau)
 
 ======================================================================
 ÉTAPE 6b — DÉCOMPOSITION (additive, période=12)
 ======================================================================
-Coefficients saisonniers (mois:valeur) : 1:-0.476 2:+0.108 3:-0.922 4:-1.026 5:-0.388 6:+2.264 7:+2.068 8:+0.459 9:-0.014 10:-0.061 11:-0.307 12:-1.704
-Contrôle de normalisation : somme = 0
-  MM centrée à la main t=7 : 4.330 | decompose : 4.273
-  MM centrée à la main t=8 : 4.217 | decompose : 4.174
-  MM centrée à la main t=9 : 4.132 | decompose : 4.182
+Coefficients saisonniers : -0.476 0.108 -0.922 -1.026 -0.388 2.264 2.068 0.459 -0.014 -0.061 -0.307 -1.704
+Contrôle : somme = 0
+  MM t=7 : ma()=4.273 | decompose=4.273
+  MM t=8 : ma()=4.174 | decompose=4.174
+  MM t=9 : ma()=4.182 | decompose=4.182
 
 ======================================================================
 ÉTAPE 7 — VALIDATION DES RÉSIDUS
 ======================================================================
-moyenne résidus=-0.02499 sd=0.983
-Ljung-Box : p=0.2622 -> pas d'autocorrélation (bruit blanc plausible)
-Shapiro-Wilk : p=0.4187 -> normalité non rejetée
-3 observations les plus mal ajustées (temps, valeur) : (2017.92 ; 6.95) (2018.08 ; 8.76) (2019.83 ; 2.91)
+moyenne=-0.02499 sd=0.983 | Ljung-Box p=0.2622 (bruit blanc plausible) | Shapiro p=0.4187 (normaux)
+3 observations les moins bien ajustées (temps ; valeur) : (2017.92 ; 6.95) (2018.08 ; 8.76) (2019.83 ; 2.91)
 
 ======================================================================
 ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
 ======================================================================
-train = 48 obs. (jusqu'à 2018.92) | test = 18 obs. (de 2019.00 à 2020.42)
-Lissage exponentiel :
-  ets ANA   AICc=    238.94  alpha=0.254 beta=- gamma=0
-  ets AAA   AICc=    244.24  alpha=0.204 beta=0 gamma=0
-  -> lissage retenu (AICc minimal) : ETS(A,N,A)
-Modèle ARIMA :
-  modèle retenu (AIC minimal, d par ADF) : ARIMA(0,1,0)x(1,12,1)[12]  AIC=136.3
-                           RMSE   MAE   MAPE
-Lissage: ETS(A,N,A)       2.732 2.313 68.231
-Naïf saisonnier           2.953 2.451 71.086
-Décomposition             3.405 2.929 86.639
-ARIMA(0,1,0)x(1,12,1)[12] 3.515 3.060 90.086
-==> meilleure méthode (RMSE) : Lissage: ETS(A,N,A)
+train = 48 obs. | test = 18 obs. (de 2019.00 à 2020.42)
+LES : alpha=0.261 | LED : alpha=0.088 beta=0.000
+Holt-Winters : alpha=0.224 beta=0.038 gamma=0.000
+auto.arima : ARIMA(0,1,1)(1,0,0)[12]
+                                   RMSE   MAE   MAPE
+LES                               2.588 2.157 69.100
+ARIMA(0,1,1)(1,0,0)[12]           2.930 2.547 78.686
+Naïf                              2.953 2.451 71.086
+Décomposition (tendance + saison) 3.405 2.929 86.639
+LED (Holt)                        3.538 3.012 94.942
+Holt-Winters                      3.556 3.092 87.819
+==> meilleure méthode (RMSE) : LES
 
 ======================================================================
 ⭐ Résidus = événements ? (dates des 5 plus grands écarts de la décomposition)

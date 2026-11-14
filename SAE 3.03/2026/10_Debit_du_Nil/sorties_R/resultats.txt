@@ -4,49 +4,32 @@
 ======================================================================
 Série : Nile | n=100 | fréquence=1 | début=1871/1 | fin=1970.00
 summary : Min. 456 | 1st Qu. 798.5 | Median 893.5 | Mean 919.35 | 3rd Qu. 1032.5 | Max. 1370 | sd=169.23 | NA=0
-Descripteurs par décennie :
- debut moyenne     sd min  max
-  1871  1132.6 151.00 813 1370
-  1881  1009.1 111.42 799 1180
-  1891  1093.4 168.47 774 1260
-  1901   868.9 135.12 692 1050
-  1911   817.6 190.62 456 1120
-  1921   822.1  94.85 698 1040
-  1931   859.5 103.29 676 1010
-  1941   836.2 101.33 649 1040
-  1951   879.5 105.93 744 1050
-  1961   874.6 148.48 714 1170
 
 ======================================================================
 ÉTAPE 5 — TESTS
 ======================================================================
-ADF : stat=-3.366 p=0.0642 -> NON stationnaire (H0 racine unitaire conservée)
-ADF sur la série différenciée : p=0.0100
-Mann-Kendall (série brute) : tau=-0.280 Z=-4.13 p=3.658e-05 -> tendance décroissante
-Pettitt : K=1617 p=3.591e-07 -> rupture de niveau vers 1899.00
+ADF : p=0.0642 -> NON stationnaire
+Mann-Kendall : p=3.658e-05 -> tendance significative
+Pettitt : p=3.591e-07 -> rupture de niveau vers 1899.00
 
 ======================================================================
-Pas de saisonnalité : décomposition = tendance (régression) + résidus
+Pas de saisonnalité : tendance (lm) + résidus
 ======================================================================
-Tendance linéaire : pente=-2.7143 ; sd résiduel=149.790
-Résidus — Ljung-Box p=0.0005, Shapiro p=0.4921
+pente=-2.7143 ; sd résiduel=149.790 ; Ljung-Box p=0.0005 ; Shapiro p=0.4921
 
 ======================================================================
 ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
 ======================================================================
-train = 80 obs. (jusqu'à 1950.00) | test = 20 obs. (de 1951.00 à 1970.00)
-Lissage exponentiel :
-  ets ANN   AICc=   1154.94  alpha=0.245 beta=- gamma=-
-  ets AAN   AICc=   1158.62  alpha=0.173 beta=0 gamma=-
-  -> lissage retenu (AICc minimal) : ETS(A,N,N)
-Modèle ARIMA :
-  modèle retenu (AIC minimal, d par ADF) : ARIMA(1,1,0)  AIC=1016.6
-                          RMSE     MAE   MAPE
-Lissage: ETS(A,N,N)    123.037 104.515 11.906
-Naïf (dernière valeur) 123.062 101.950 11.963
-ARIMA(1,1,0)           125.045 106.163 11.967
-Décomposition          133.313 108.012 13.156
-==> meilleure méthode (RMSE) : Lissage: ETS(A,N,N)
+train = 80 obs. | test = 20 obs. (de 1951.00 à 1970.00)
+LES : alpha=0.246 | LED : alpha=0.437 beta=0.060
+auto.arima : ARIMA(1,1,1)
+                       RMSE     MAE   MAPE
+LES                 123.023 104.502 11.906
+Naïf                123.062 101.950 11.963
+ARIMA(1,1,1)        125.045 106.163 11.967
+LED (Holt)          126.228 101.623 12.050
+Tendance seule (lm) 133.313 108.013 13.156
+==> meilleure méthode (RMSE) : LES
 
 ======================================================================
 ⭐ Pettitt (train) + ADF avant/après
@@ -54,5 +37,5 @@ Décomposition          133.313 108.012 13.156
 rupture vers 1899 (p=1.5e-07)
   ADF avant : p=0.710   moyenne=1097.8
   ADF après : p=0.010   moyenne=839.6
-  LES sur toute la série d'entraînement    alpha=0.245 RMSE=123.04 MAE=104.52
-  LES sur la période post-rupture seule     alpha=0.000 RMSE=128.00 MAE=107.00
+  LES sur toute la série d'entraînement    alpha=0.246 RMSE=123.02 MAE=104.50
+  LES sur la période post-rupture seule     alpha=0.056 RMSE=127.67 MAE=106.88
