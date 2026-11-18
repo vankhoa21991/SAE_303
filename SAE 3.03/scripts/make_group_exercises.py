@@ -133,14 +133,14 @@ D = {
   modele="Additif ; les coefficients sont interprétables physiquement (°F au-dessus/dessous de la moyenne annuelle).",
  ),
  "ECO": dict(
-  titre="Données économiques — FEDFUNDS (taux directeur de la Fed)", freq="mensuel",
-  acces="Téléchargement FRED : https://fred.stlouisfed.org/series/FEDFUNDS (CSV) ; à lire en R avec `read.csv` puis `ts(x, start=c(1954,7), frequency=12)`. (*Sujet « 10 données économiques » ambigu : FEDFUNDS choisi car dans l'énoncé — à confirmer avec le groupe.*)",
-  cut="train = jusqu'à fin 2018 ; test = 2019 – 2022 (observer la rupture COVID et la remontée des taux 2022).",
-  ctx="Politique monétaire de la Réserve fédérale : taux, inflation, crises 1980, 2008, 2020.",
-  saison="Pas de saisonnalité attendue ; tendances par régimes (hausse jusqu'en 1981, baisse, zéro, remontée).",
-  piege="Plusieurs ruptures : un seul modèle de tendance est faux. Taux plancher à ≈ 0 : les prévisions peuvent devenir négatives (absurde économiquement).",
-  angle="Segmenter par Pettitt (récursif) et mesurer l'échec des méthodes sur le test 2019-2022 : que valent les prévisions en période de rupture ?",
-  modele="Pas de modèle saisonnier ; Holt ou LES sur régime récent.",
+  titre="Dépenses mensuelles de produits anti-diabète en Australie (a10)", freq="mensuel (période 12)",
+  acces="R : `library(fpp2); a10` (juil. 1991 – juin 2008, 204 obs., millions de dollars australiens — dépenses du Pharmaceutical Benefit Scheme, code ATC A10, source Medicare Australia).",
+  cut="train = juil. 1991 – juin 2006 ; test = juil. 2006 – juin 2008 (24 mois).",
+  ctx="Pharmaceutical Benefit Scheme (PBS) : programme public australien qui subventionne les médicaments. Série = dépenses du gouvernement pour les antidiabétiques (ATC A10). Contexte : hausse du diabète de type 2, nouveaux traitements, règles de remboursement.",
+  saison="Tendance fortement croissante ET saisonnalité annuelle très marquée dont l'amplitude grandit avec le niveau.",
+  piege="Modèle multiplicatif attendu (ou log). Série courte (17 cycles) mais très structurée. La croissance accélère : une droite unique sur toute la période sous-estime la fin de série (rupture de tendance, Pettitt).",
+  angle="Trancher additif/multiplicatif par un critère chiffré (reconstruction), puis comparer Holt-Winters multiplicatif brut vs additif sur log(y) sur le test de 24 mois, et tendance globale vs tendance post-rupture.",
+  modele="Multiplicatif à justifier (Buys-Ballot + bande) ; coefficients saisonniers mensuels à interpréter mois par mois.",
  ),
  "R": dict(
   titre="Transports publics en France — régularité des trains (Option R)", freq="mensuel (période 12)",
@@ -198,7 +198,7 @@ SUJET = {  # texte du tableau tel que saisi par les étudiants
 def slug(s): return re.sub(r"[^A-Za-z0-9]+", "-", s.replace("é", "e")).strip("-")
 
 SUBJ = [  # (fichier, titre du sujet, [variantes])
- ("01_Economie_FEDFUNDS", "Données économiques", ["ECO"]),
+ ("01_Economie_a10_antidiabete", "Données d'économie — ventes de produits anti-diabète (Australie)", ["ECO"]),
  ("02_Medecine_Deces_pulmonaires", "Médecine — décès pulmonaires (UK)", ["MED", "LDEATHS"]),
  ("03_Transports_publics_France", "Transports publics en France", ["R"]),
  ("04_Taches_solaires", "Taches solaires", ["SUNM", "SUNA"]),
@@ -299,7 +299,7 @@ def main():
             rows.append(f"| {titre} | {D[k]['titre']} | {cl} {n} — {noms} | [{fn}/ENONCE.md]({fn}/ENONCE.md) |")
     idx = ["# Exercices SAE 3.03 — promo 2026 (par sujet)\n",
            "| Sujet | Série | Groupe | Énoncé |", "|---|---|---|---|", *rows,
-           "\n**À confirmer** : « 10 données économiques » (EMS-1 → FEDFUNDS) et « 2.5 environnement » (VCOD-7 → nottem).",
+           "\n**À confirmer** : « 2.5 environnement » (VCOD-7 → nottem ; dans le doc 2.5 = CO₂). EMS-1 « 10 données économiques » = 2.10 = a10 (antidiabétiques).",
            "Décès pulmonaires et taches solaires : un énoncé, deux variantes (mdeaths+fdeaths / ldeaths ; mensuel / annuel).",
            "",
            "## Comment lancer les solutions (corrigés)",
@@ -328,7 +328,7 @@ def main():
            "",
            "- **Séries R** (UKgas, gas, co2, Nile, nottem, sunspots, sunspot.year, UKDriverDeaths, mdeaths/fdeaths/ldeaths) :",
            "  R de base + `fpp2` ; Python les lit via `statsmodels.datasets.get_rdataset`, avec repli sur le CSV local de `data/`.",
-           "- **FEDFUNDS** (01) : téléchargé depuis FRED → `data/FEDFUNDS.csv` (re-téléchargé automatiquement si absent).",
+           "- **a10** (01, package fpp2) : exporté par `solution.R` → `data/a10.csv` (lu par `solution.py`).",
            "- **Boulder** (07) : CSV du doc SAE (GitHub ef2020) → `data/boulder-precip.csv` ; HPCP en pouces, 999.99 = NA,",
            "  plusieurs relevés par jour à sommer, jours absents = jours secs.",
            "- **Options locales** (03 transports, 11 météo, 12 champagne) : fichiers de `SAE 3.03/data/`",
@@ -337,9 +337,8 @@ def main():
            "## À savoir avant de distribuer les corrigés",
            "",
            "- Sujet 04 : le doc dit « sunspot.month, 1790–1970 » ; R n'a pas cet objet → `sunspots` (1749–1983), à signaler.",
-           "- Sujet 01 : FEDFUNDS est dans la section « sans saisonnalité — PAS AU PROGRAMME DES BUT2 » du doc — à confirmer si BUT2.",
            "- Choix SARIMA par grille AIC restreinte (p,q ≤ 2, P,Q ≤ 1) ; p-values ADF de `tseries` bornées à 0.01 ;",
-           "  MAPE énorme sur FEDFUNDS (taux ≈ 0 : artefact du MAPE)."]
+           "  RMSE/MAE/MAPE calculés sur un test de quelques années seulement : à interpréter avec prudence."]
     (OUT / "README.md").write_text("\n".join(idx) + "\n", encoding="utf-8")
     print(len(SUBJ), "fichiers écrits dans", OUT)
 

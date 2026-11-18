@@ -21,7 +21,7 @@ sd = a*moyenne + b : a=0.5801, p=0.0000 (27 cycles)
 ======================================================================
 ÉTAPE 6b — DÉCOMPOSITION (multiplicative, période=4)
 ======================================================================
-Coefficients saisonniers : 1.454 0.956 0.558 1.032
+Coefficients saisonniers (position 1, 2, ... du cycle) : 1.454 0.956 0.558 1.032
 Contrôle : moyenne = 1
   MM t=3 : ma()=123.675 | decompose=123.675
   MM t=4 : ma()=123.075 | decompose=123.075

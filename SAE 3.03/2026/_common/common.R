@@ -72,17 +72,18 @@ choose_model <- function(y, period) {   # Buys-Ballot : écart-type de chaque cy
 decomposition <- function(y, model, tt = as.numeric(time(y))) {
   hdr(sprintf("ÉTAPE 6b — DÉCOMPOSITION (%s, période=%g)", model, frequency(y)))
   dec <- decompose(y, type = model); p <- frequency(y)
-  say("Coefficients saisonniers : ", paste(round(head(dec$figure, 24), 3), collapse = " "), if (p > 24) " ...")
+  pos <- as.integer(cycle(y)); coefcal <- as.numeric(tapply(as.numeric(dec$seasonal), pos, mean))   # coefficient de chaque position (1 = janvier si mensuel), quel que soit le début de la série
+  say("Coefficients saisonniers (position 1, 2, ... du cycle) : ", paste(round(head(coefcal, 24), 3), collapse = " "), if (p > 24) " ...")
   say("Contrôle : ", if (model == "additive") "somme = " else "moyenne = ", round(if (model == "additive") sum(dec$figure) else mean(dec$figure), 4))
   mm <- ma(y, order = p, centre = TRUE); h <- p %/% 2   # moyenne mobile centrée "à la main" (comme TP02) vs decompose
   for (t in (h + 1):(h + 3)) say(sprintf("  MM t=%d : ma()=%.3f | decompose=%.3f", t, mm[t], dec$trend[t]))
   cvs <- if (model == "additive") y - dec$seasonal else y / dec$seasonal
   # tableaux chiffrés (lus par scripts/make_explanations.py pour écrire exemple_decomposition.md)
-  ratio <- if (model == "additive") y - dec$trend else y / dec$trend; pos <- as.integer(cycle(y)); raw <- tapply(as.numeric(ratio), pos, mean, na.rm = TRUE)
-  write.csv(data.frame(position = seq_along(raw), brute = as.numeric(raw), normalisee = dec$figure, n = as.numeric(tapply(!is.na(ratio), pos, sum))), file.path(OUT, "coefficients.csv"), row.names = FALSE)
+  ratio <- if (model == "additive") y - dec$trend else y / dec$trend; raw <- tapply(as.numeric(ratio), pos, mean, na.rm = TRUE)
+  write.csv(data.frame(position = seq_along(raw), brute = as.numeric(raw), normalisee = coefcal, n = as.numeric(tapply(!is.na(ratio), pos, sum))), file.path(OUT, "coefficients.csv"), row.names = FALSE)
   rows <- 1:(h + min(2 * p, 12))
   write.csv(data.frame(t = rows, temps = round(tt[rows], 2), y = as.numeric(y)[rows], tendance = as.numeric(dec$trend)[rows], ratio = as.numeric(ratio)[rows], position = pos[rows],
-                       coef = dec$figure[pos[rows]], cvs = as.numeric(cvs)[rows], residu = as.numeric(dec$random)[rows]), file.path(OUT, "exemple_chiffre.csv"), row.names = FALSE)
+                       coef = coefcal[pos[rows]], cvs = as.numeric(cvs)[rows], residu = as.numeric(dec$random)[rows]), file.path(OUT, "exemple_chiffre.csv"), row.names = FALSE)
   png_open("03_decomposition.png", 1100, 900); plot(dec); dev.off()
   png_open("04_cvs.png", 1100, 400); plot(y, col = "grey50", main = "Série brute vs CVS"); lines(cvs, col = "red"); dev.off()
   dec

@@ -1,0 +1,5 @@
+,RMSE,MAE,MAPE
+"ARIMA(1, 1, 1)x(1, 1, 1)[12] sur log",2.508,2.121,9.667
+Lissage: HW tendance,2.971,2.551,11.447
+Décomposition,4.704,4.267,19.065
+Naïf saisonnier,4.942,4.498,20.248

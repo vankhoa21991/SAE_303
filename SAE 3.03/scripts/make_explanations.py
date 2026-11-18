@@ -13,11 +13,11 @@ ROOT = Path(__file__).resolve().parent.parent / "2026"
 MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 
 SUBJECTS = {
- "01_Economie_FEDFUNDS": dict(title="FEDFUNDS — US federal funds rate", runs=[("FEDFUNDS monthly 1954–2022", ".")],
-   context="Effective federal funds rate (the overnight interest rate between US banks), monthly from July 1954, cut at December 2022 for the exercise. Monetary policy makes it move by **regimes** (rise to 1981, long fall, near zero after 2008 and 2020, sharp hikes in 2022), not by calendar season.",
-   watch=["No seasonality: the pipeline fits a trend line and looks at the residuals — and a single straight line is a poor description of several regimes.",
-          "The test period (2019–2022) contains the Covid cut to ~0 and the 2022 hikes: every method is wrong there. That is the lesson, not a bug.",
-          "MAPE is huge when the rate is close to 0 (division by a tiny observed value): read RMSE/MAE instead and say why."]),
+ "01_Economie_a10_antidiabete": dict(title="Anti-diabetic drug spending in Australia (a10)", runs=[("monthly Jul 1991 – Jun 2008", ".")],
+   context="Monthly government spending (millions of Australian dollars) on anti-diabetic drugs (ATC code A10) under the Pharmaceutical Benefit Scheme, July 1991 → June 2008 (204 observations, `fpp2::a10`, source Medicare Australia). Spending grows strongly (more diabetes, new treatments, reimbursement rules) and follows a very marked yearly cycle: in our run January is the peak (about +33% vs trend), February the sharpest drop (about −22%), December also high (+23%).",
+   watch=["Strong trend **and** strong seasonality whose amplitude grows with the level: the multiplicative model (or log(y)) is the natural choice — the ⭐ block backs this with a numerical criterion.",
+          "The first observation is **July**, not January: position 1 of the cycle is January in the tables (calendar position), not the first value of the series. Mixing the two shifts every coefficient by 6 months.",
+          "Growth accelerates (Pettitt finds a break around 1999–2000): a single straight line over the whole period under-forecasts the last two years; the ⭐ block compares it with a trend fitted after the break."]),
  "02_Medecine_Deces_pulmonaires": dict(title="UK lung-disease deaths (mdeaths, fdeaths, ldeaths)", runs=[("mdeaths — men", "mdeaths"), ("fdeaths — women", "fdeaths"), ("ldeaths — both sexes", "ldeaths")],
    extra_dirs=["comparaison_m_f"],
    context="Monthly UK deaths from bronchitis, emphysema and asthma, 1974–1979 (72 months): `mdeaths` = men, `fdeaths` = women, `ldeaths` = total. Deaths peak in winter (cold, respiratory infections).",

@@ -79,22 +79,22 @@ The first 6 and last 6 trend values do not exist (the window would run outside t
 
 | Position | n ratios | raw | normalised (decompose) | meaning |
 |---|---|---|---|---|
-| Jan | 64 | -0.8034 | 0.0093 | +0.0 vs trend |
-| Feb | 65 | -0.7027 | -0.0716 | -0.1 vs trend |
-| Mar | 65 | 0.2899 | -0.2276 | -0.2 vs trend |
-| Apr | 65 | 0.9085 | -0.3851 | -0.4 vs trend |
-| May | 65 | 1.2759 | -0.6530 | -0.7 vs trend |
-| Jun | 65 | 0.2703 | -0.7986 | -0.8 vs trend |
-| Jul | 64 | 0.0560 | -0.6979 | -0.7 vs trend |
-| Aug | 64 | 0.0045 | 0.2947 | +0.3 vs trend |
-| Sep | 64 | -0.0763 | 0.9133 | +0.9 vs trend |
-| Oct | 64 | -0.2323 | 1.2807 | +1.3 vs trend |
-| Nov | 64 | -0.3899 | 0.2750 | +0.3 vs trend |
-| Dec | 64 | -0.6578 | 0.0608 | +0.1 vs trend |
+| Jan | 64 | -0.8034 | -0.7986 | -0.8 vs trend |
+| Feb | 65 | -0.7027 | -0.6979 | -0.7 vs trend |
+| Mar | 65 | 0.2899 | 0.2947 | +0.3 vs trend |
+| Apr | 65 | 0.9085 | 0.9133 | +0.9 vs trend |
+| May | 65 | 1.2759 | 1.2807 | +1.3 vs trend |
+| Jun | 65 | 0.2703 | 0.2750 | +0.3 vs trend |
+| Jul | 64 | 0.0560 | 0.0608 | +0.1 vs trend |
+| Aug | 64 | 0.0045 | 0.0093 | +0.0 vs trend |
+| Sep | 64 | -0.0763 | -0.0716 | -0.1 vs trend |
+| Oct | 64 | -0.2323 | -0.2276 | -0.2 vs trend |
+| Nov | 64 | -0.3899 | -0.3851 | -0.4 vs trend |
+| Dec | 64 | -0.6578 | -0.6530 | -0.7 vs trend |
 
-The raw coefficients average -0.0048; they are rescaled to 0 so the season does not also move the overall level. Largest: **Oct**, smallest: **Jun**.
+The raw coefficients average -0.0048; they are rescaled to 0 so the season does not also move the overall level. Largest: **May**, smallest: **Jan**.
 
-**Step D — seasonally adjusted series (CVS) and residual.** `CVS_t = y_t − S`; the residual is what trend × season (or trend + season) does not explain. Example at t = 7: y = 0.10, T = 1.62, S = -0.0716 ⇒ CVS = 0.80, residual = -0.8250 (0 = perfect fit).
+**Step D — seasonally adjusted series (CVS) and residual.** `CVS_t = y_t − S`; the residual is what trend × season (or trend + season) does not explain. Example at t = 7: y = 0.10, T = 1.62, S = -0.6979 ⇒ CVS = 0.80, residual = -0.8250 (0 = perfect fit).
 
 ### Validation (step 7)
 

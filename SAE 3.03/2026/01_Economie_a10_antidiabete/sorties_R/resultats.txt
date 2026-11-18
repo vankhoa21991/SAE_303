@@ -1,0 +1,74 @@
+
+======================================================================
+ÉTAPES 3-4 — DESCRIPTION & EXPLORATION
+======================================================================
+Série : a10 anti-diabète (M$) | n=204 | fréquence=12 | début=1991/7 | fin=2008.42
+summary : Min. 2.81 | 1st Qu. 5.84 | Median 9.32 | Mean 10.69 | 3rd Qu. 14.29 | Max. 29.67 | sd=5.96 | NA=0
+
+======================================================================
+ÉTAPE 5 — TESTS
+======================================================================
+ADF : p=0.0100 -> stationnaire (H0 racine unitaire rejetée)
+Mann-Kendall : p=2.212e-72 -> tendance significative
+Pettitt : p=2.364e-32 -> rupture de niveau vers 1999.83
+
+======================================================================
+ÉTAPE 6a — CHOIX ADDITIF / MULTIPLICATIF (Buys-Ballot)
+======================================================================
+sd = a*moyenne + b : a=0.1414, p=0.0000 (17 cycles)
+-> modèle retenu : MULTIPLICATIVE  (pente significativement > 0 => amplitude proportionnelle au niveau)
+
+======================================================================
+ÉTAPE 6b — DÉCOMPOSITION (multiplicative, période=12)
+======================================================================
+Coefficients saisonniers (position 1, 2, ... du cycle) : 1.331 0.78 0.876 0.858 0.933 0.917 0.979 0.99 0.986 1.046 1.076 1.23
+Contrôle : moyenne = 1
+  MM t=7 : ma()=3.503 | decompose=3.503
+  MM t=8 : ma()=3.528 | decompose=3.528
+  MM t=9 : ma()=3.566 | decompose=3.566
+
+======================================================================
+ÉTAPE 7 — VALIDATION DES RÉSIDUS
+======================================================================
+moyenne=-0.0005546 sd=0.04848 | Ljung-Box p=0.01125 (autocorrélés) | Shapiro p=0.05621 (normaux)
+3 observations les moins bien ajustées (temps ; valeur) : (1993.92 ; 7.18) (1992.92 ; 5.81) (2006.67 ; 16.62)
+
+======================================================================
+ÉTAPE 8 — PRÉVISION (comparaison sur le jeu de test)
+======================================================================
+train = 180 obs. | test = 24 obs. (de 2006.50 à 2008.42)
+LES : alpha=0.255 | LED : alpha=0.199 beta=0.076
+Holt-Winters : alpha=0.154 beta=0.049 gamma=0.454
+auto.arima : ARIMA(0,1,1)(2,1,1)[12]
+                                   RMSE   MAE   MAPE
+ARIMA(0,1,1)(2,1,1)[12]           2.537 2.171  9.838
+Holt-Winters                      3.040 2.630 11.823
+Décomposition (tendance + saison) 4.704 4.267 19.065
+Naïf                              4.942 4.498 20.248
+LED (Holt)                        5.018 4.061 17.128
+LES                               6.143 5.109 21.601
+==> meilleure méthode (RMSE) : ARIMA(0,1,1)(2,1,1)[12]
+
+======================================================================
+Additif vs multiplicatif — critère chiffré
+======================================================================
+  additive        RMSE=0.905  MAPE=7.35%  autocorr(1) résidus=0.03
+  multiplicative  RMSE=0.608  MAPE=3.83%  autocorr(1) résidus=-0.22
+
+======================================================================
+Holt-Winters multiplicatif brut vs additif sur log(y)
+======================================================================
+  HW multiplicatif (brut)    RMSE=3.040 MAE=2.630 MAPE=11.82%
+  HW additif sur log         RMSE=2.729 MAE=2.319 MAPE=10.48%
+
+======================================================================
+⭐ Rupture de tendance ?
+======================================================================
+Pettitt (série brute) : voir ÉTAPE 5 — la croissance accélère-t-elle ? comparer tendance globale et tendance post-rupture :
+
+======================================================================
+Tendance globale vs ajustée après la rupture (obs. >= 101)
+======================================================================
+  tendance globale         RMSE=4.704 MAPE=19.07%
+  tendance post-rupture    RMSE=3.367 MAPE=13.00%
+-> La méthode de choix (Buys-Ballot) avait retenu : multiplicative
