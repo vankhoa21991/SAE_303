@@ -336,3 +336,140 @@ cd "/home/lupin/projects/SAE_303/SAE 3.03/2026/05_Gaz_UK_UKgas"
 Rscript solution.R        # sorties_R/    : resultats.txt + PNG figures + comparaison_previsions.csv
 python3 solution.py       # sorties_python/ : same pipeline in Python (selected models may differ slightly)
 ```
+
+---
+
+## H. The formulas behind the tests and the forecasting methods
+
+### H.1 The three tests (step 5 of the brief)
+
+| Test | Question (H0) | Statistic | Read the result |
+|---|---|---|---|
+| ADF (`adf.test`) | H0: unit root, non-stationary | regression `Δy_t = α + γ·y_{t-1} + Σ φ_i·Δy_{t-i}`, test on γ | p < 0.05 → stationary |
+| Mann-Kendall (`mk.test`) | H0: no monotonic trend | `S = Σ_{i<j} sign(y_j − y_i)`, `Z = S / √Var(S)`, `Var(S) = n(n−1)(2n+5)/18` | p < 0.05 → trend |
+| Pettitt (`pettitt.test`) | H0: no change point | `U_t = Σ_{i≤t} Σ_{j>t} sign(y_i − y_j)`, `K = max|U_t|`, `p ≈ 2·exp(−6K²/(n³+n²))` | p < 0.05 → break after the t that maximises `|U_t|` |
+
+On UKgas: ADF p = 0.74 (non-stationary), Mann-Kendall p ≈ 3·10⁻²² (strong trend),
+Pettitt break after observation 51 = **1972 Q3**, p ≈ 2·10⁻¹⁴.
+
+*Caution:* Mann-Kendall and Pettitt assume independent observations. A seasonal series is not, so treat
+these p-values as strong evidence, not exact probabilities.
+
+### H.2 Exponential smoothing (step 8)
+
+Notation: `L` = level, `b` = slope, `S` = seasonal coefficient, `p` = period, `h` = horizon.
+
+```
+LES  (simple)        L_t = α·y_t + (1−α)·L_{t−1}                         forecast: ŷ_{t+h} = L_t
+LED  (Holt)          L_t = α·y_t + (1−α)(L_{t−1} + b_{t−1})
+                     b_t = β(L_t − L_{t−1}) + (1−β)·b_{t−1}              forecast: ŷ_{t+h} = L_t + h·b_t
+Holt-Winters (mult.) L_t = α·y_t / S_{t−p} + (1−α)(L_{t−1} + b_{t−1})
+                     b_t = β(L_t − L_{t−1}) + (1−β)·b_{t−1}
+                     S_t = γ·y_t / L_t + (1−γ)·S_{t−p}                   forecast: ŷ_{t+h} = (L_t + h·b_t)·S_{t+h−p}
+```
+
+α, β, γ ∈ [0, 1] are chosen by `HoltWinters()` to minimise the sum of squared one-step errors.
+A large α means the level follows the latest observation closely.
+
+### H.3 Error measures
+
+```
+RMSE = √( mean( (y_t − ŷ_t)² ) )        penalises large errors
+MAE  = mean( |y_t − ŷ_t| )
+MAPE = 100 · mean( |y_t − ŷ_t| / y_t )   in %, only if y > 0
+```
+
+---
+
+## I. Complete runnable script (every step, with its output)
+
+Self-contained: it needs only R and the packages `tseries`, `trend`, `forecast`. Copy it into a file and
+run `Rscript walk.R`. The printed values are the ones used throughout this document.
+
+```r
+library(tseries); library(trend); library(forecast)
+y <- UKgas; p <- 4
+
+## 1. Exploration et tests
+cat("ADF p =", adf.test(y)$p.value, "\n")
+cat("Mann-Kendall p =", mk.test(as.numeric(y))$p.value, "\n")
+pt <- pettitt.test(as.numeric(y))
+cat("Pettitt: dernier index avant rupture =", pt$estimate[1],
+    "-> date", time(y)[pt$estimate[1]], " p =", pt$p.value, "\n")
+
+## 2. Choix du modèle (Buys-Ballot)
+cyc <- (seq_along(y) - 1) %/% p
+m <- tapply(y, cyc, mean); s <- tapply(y, cyc, sd)
+bb <- summary(lm(s ~ m))$coefficients
+cat("Buys-Ballot: pente =", bb[2,1], " p =", bb[2,4], "\n")
+
+## 3. Tendance : moyenne mobile centrée, à la main puis ma()
+w <- c(0.5, 1, 1, 1, 0.5) / p
+T3 <- sum(w * y[1:5]); cat("T_3 à la main =", T3, "\n")
+mm <- ma(y, order = p, centre = TRUE)
+cat("T_3 avec ma() =", mm[3], "\n")
+
+## 4. Coefficients saisonniers
+dec <- decompose(y, type = "multiplicative")
+ratio <- y / dec$trend
+raw <- tapply(ratio, cycle(y), mean, na.rm = TRUE)
+print(round(raw, 4)); print(round(raw / mean(raw), 4))
+print(round(tapply(dec$seasonal, cycle(y), mean), 4))
+
+## 5. CVS et résidus
+S <- tapply(dec$seasonal, cycle(y), mean)
+cvs <- y / dec$seasonal
+print(round(head(cvs, 4), 2))
+cat("R_3 =", as.numeric(y[3] / (dec$trend[3] * S[3])), "\n")
+
+## 6. Validation
+r <- na.omit(dec$random)
+print(Box.test(r, lag = 8, type = "Ljung-Box")$p.value)
+print(shapiro.test(r)$p.value)
+
+## 7. Prévision
+train <- window(y, end = c(1984, 4)); test <- window(y, start = c(1985, 1))
+h <- length(test)
+rmse <- function(a, f) sqrt(mean((as.numeric(a) - as.numeric(f))^2))
+d <- decompose(train, "multiplicative")
+Sq <- tapply(d$seasonal, cycle(train), mean)
+cvs_tr <- train / d$seasonal
+t <- seq_along(train)
+fit <- lm(as.numeric(cvs_tr) ~ t); print(coef(fit))
+tn <- length(train) + 1:h
+trend_f <- coef(fit)[1] + coef(fit)[2] * tn
+pos <- as.integer(cycle(test))
+f_dec <- trend_f * Sq[pos]
+les <- HoltWinters(train, beta = FALSE, gamma = FALSE)
+led <- HoltWinters(train, gamma = FALSE)
+hw  <- HoltWinters(train, seasonal = "multiplicative")
+f_les <- predict(les, h); f_led <- predict(led, h); f_hw <- predict(hw, h)
+f_ar <- forecast(auto.arima(train), h = h)$mean
+f_nv <- as.numeric(window(train, start = c(1984, 1)))
+cat("trend_f:", round(trend_f,1), "\nf_dec:", round(f_dec,1), "\n")
+print(round(c(Decomp = rmse(test, f_dec), LES = rmse(test, f_les), LED = rmse(test, f_led),
+  HW = rmse(test, f_hw), ARIMA = rmse(test, f_ar), Naif = rmse(test, f_nv)), 1))
+```
+
+### Output (R 4.3.3)
+
+```
+ADF p = 0.739            Mann-Kendall p = 2.75e-22
+Pettitt: break after index 51 (= 1972.5), p = 2.08e-14
+Buys-Ballot: slope = 0.5801, p = 1.09e-23           -> multiplicative
+T_3 by hand = 123.675    T_3 with ma() = 123.675
+raw seasonal   : 1.4538 0.9560 0.5585 1.0320
+normalised     : 1.4537 0.9559 0.5584 1.0319        (= dec$figure)
+CVS 1960       : 110.13 135.68 151.85 116.39
+R_3 = 1.2278
+Ljung-Box p = 0          Shapiro p = 0.0040
+trend line     : 36.207 + 5.296·t
+trend forecast : 571.1 576.4 581.7 587.0 592.3 597.6 602.9 608.2
+decomposition  : 821.1 557.3 332.7 600.7 851.6 577.8 344.8 622.4
+
+RMSE  Decomp 170.7 | LES 327.2 | LED 321.4 | Holt-Winters 76.5 | auto.arima 71.3 | Naive 101.9
+```
+
+Note: `auto.arima` here is the default call on the training data (RMSE 71.3). The `solution.R` pipeline
+allows drift and a log transform and gets 45.9, which is why the table in D.2 differs. The two scripts
+are consistent; they just use different ARIMA settings.
